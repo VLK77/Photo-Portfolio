@@ -551,11 +551,57 @@
 
   .fade-in.visible { opacity: 1; transform: none; }
 
-  @media (max-width: 600px) {
+  /* ── Hamburger ── */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.4rem;
+    z-index: 101;
+  }
+  .nav-hamburger span {
+    display: block;
+    width: 22px;
+    height: 1px;
+    background: var(--text);
+    transition: transform 0.3s, opacity 0.3s;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+  @media (max-width: 700px) {
     nav { padding: 1.2rem 1.5rem; }
+    .nav-hamburger { display: flex; }
+    .nav-links {
+      position: fixed;
+      inset: 0;
+      background: rgba(8,8,8,0.97);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      z-index: 99;
+    }
+    .nav-links.open { opacity: 1; pointer-events: all; }
+    .nav-links a { font-size: 14px; letter-spacing: 0.22em; color: var(--text); }
     .hero { padding: 0 1.5rem 2rem; }
+    .hero-scroll { display: none; }
     section { padding: 4rem 1.5rem; }
     footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+    /* Work section header — stack on mobile */
+    #work > div:first-child { flex-direction: column; align-items: flex-start !important; }
+    /* Stat rows — shrink font on small screens */
+    .stat-value { font-size: 1.1rem !important; }
+    /* Contact title */
+    .contact-title { font-size: clamp(2.4rem, 9vw, 4rem); }
   }
 
   .filter-tabs {
@@ -1085,7 +1131,10 @@ AqHIAQAcgAHcANjgAAAAAO4AEgAB7gAqAcgAAAEhwAAAcgAB7gAm4KEHAAABJIAAAHJOwAAB9gAA
 3BU/vADY5AAAANwAJ7AAAAICySG4HsHQnuBAAHsAAABwSEfYACQAAA9gDoQbm4CoAEAB7gASEgAA
 AAHQDkDkAAAFQJAAAAAkDkCeAAAACDcAAAAACUBTgkAAAkAAAAAAP7SAAAA3NwO4QABuASAAdAAC
 TkAkAAAJJ9QkH//Z" alt="VK" style="height:36px;width:36px;object-fit:cover;display:block;"></a>
-  <ul class="nav-links">
+  <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
     <li><a href="#work">Work</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -1796,6 +1845,21 @@ TkAkAAAJJ9QkH//Z" alt="VK" style="height:28px;width:28px;object-fit:cover;opacit
 </div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // ── Hamburger menu ──────────────────────────────────────────────────────
+  const hamburger = document.getElementById('navHamburger');
+  const navLinks  = document.getElementById('navLinks');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      navLinks.classList.remove('open');
+    });
+  });
+  // ─────────────────────────────────────────────────────────────────────────
+
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
