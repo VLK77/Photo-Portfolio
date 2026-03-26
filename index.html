@@ -20,7 +20,7 @@
     --font-mono: 'DM Mono', monospace;
   }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
 
   body {
     background: var(--bg);
@@ -99,7 +99,7 @@
 
   .hero-title {
     font-family: var(--font-display);
-    font-size: clamp(4.5rem, 11vw, 10rem);
+    font-size: clamp(2.2rem, 11vw, 10rem);
     font-weight: 800;
     line-height: 0.88;
     letter-spacing: -0.03em;
@@ -594,6 +594,7 @@
     .nav-links a { font-size: 14px; letter-spacing: 0.22em; color: var(--text); }
     .hero { padding: 0 1.5rem 2rem; }
     .hero-scroll { display: none; }
+    .hero-grid-line { display: none; }
     section { padding: 4rem 1.5rem; }
     footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
     /* Work section header — stack on mobile */
