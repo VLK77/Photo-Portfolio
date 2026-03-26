@@ -72,6 +72,7 @@
 
   .hero {
     height: 100vh;
+    height: 100svh;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -414,6 +415,7 @@
 
   .contact-form input,
   .contact-form textarea {
+    width: 100%;
     background: var(--surface);
     border: 1px solid var(--border);
     color: var(--text);
@@ -426,6 +428,7 @@
     transition: border-color 0.25s;
     resize: none;
     cursor: crosshair;
+    box-sizing: border-box;
   }
 
   .contact-form input:focus,
