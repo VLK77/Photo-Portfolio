@@ -1,0 +1,192 @@
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0a0a0a;
+      color: #e8e4dc;
+      font-family: 'Courier New', monospace;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 560px;
+    }
+
+    .logo {
+      font-size: 1.1rem;
+      letter-spacing: 0.15em;
+      color: #e8e4dc;
+      margin-bottom: 2.5rem;
+      opacity: 0.5;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      color: #555;
+      margin-bottom: 3rem;
+      text-transform: uppercase;
+    }
+
+    /* Token screen */
+    #token-screen, #upload-screen { display: none; }
+    #token-screen.active, #upload-screen.active { display: block; }
+
+    .field { margin-bottom: 1.8rem; }
+
+    label {
+      display: block;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #666;
+      margin-bottom: 0.6rem;
+    }
+
+    input[type="text"], input[type="password"], select {
+      width: 100%;
+      background: #111;
+      border: 1px solid #222;
+      color: #e8e4dc;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      padding: 0.85rem 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus { border-color: #444; }
+    select { cursor: pointer; }
+    select option { background: #111; }
+
+    /* Drop zone */
+    .dropzone {
+      border: 1px dashed #333;
+      padding: 3rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+      margin-bottom: 1.8rem;
+    }
+
+    .dropzone:hover, .dropzone.drag-over {
+      border-color: #666;
+      background: #111;
+    }
+
+    .dropzone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .dropzone-icon { font-size: 2rem; margin-bottom: 0.8rem; opacity: 0.4; }
+    .dropzone-text { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: #555; }
+    .dropzone-hint { font-size: 0.65rem; color: #333; margin-top: 0.4rem; }
+
+    .preview-wrap {
+      display: none;
+      margin-bottom: 1.8rem;
+      position: relative;
+    }
+
+    .preview-wrap img {
+      width: 100%;
+      max-height: 280px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .preview-name {
+      font-size: 0.65rem;
+      color: #444;
+      padding: 0.5rem 0;
+      letter-spacing: 0.05em;
+    }
+
+    .remove-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: #0a0a0a;
+      border: 1px solid #333;
+      color: #e8e4dc;
+      font-family: 'Courier New', monospace;
+      font-size: 0.7rem;
+      padding: 0.3rem 0.6rem;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+    }
+
+    .btn {
+      width: 100%;
+      background: transparent;
+      border: 1px solid #e8e4dc;
+      color: #e8e4dc;
+      font-family: 'Courier New', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 1rem 1.5rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .btn:hover { background: #e8e4dc; color: #0a0a0a; }
+    .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn:disabled:hover { background: transparent; color: #e8e4dc; }
+
+    /* Progress */
+    .progress { display: none; margin-top: 1.5rem; }
+    .progress-bar-wrap { background: #111; height: 2px; margin-bottom: 0.6rem; }
+    .progress-bar { height: 100%; background: #e8e4dc; width: 0%; transition: width 0.3s; }
+    .progress-text { font-size: 0.65rem; letter-spacing: 0.1em; color: #555; text-transform: uppercase; }
+
+    /* Success */
+    .success-msg {
+      display: none;
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border: 1px solid #2a4a2a;
+      background: #0f1f0f;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      color: #5a9a5a;
+    }
+
+    .error-msg {
+      display: none;
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border: 1px solid #4a1a1a;
+      background: #1a0a0a;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      color: #c04040;
+    }
+
+    .link {
+      display: inline-block;
+      margin-top: 2rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: #444;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .link:hover { color: #888; }
