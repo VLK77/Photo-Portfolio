@@ -61,17 +61,16 @@
 
   /* ===== WHEEL NAVIGATION (desktop) ===== */
   var wheelTimeout = null;
-  container.addEventListener("wheel", function(e) {
+  document.addEventListener("wheel", function(e) {
     if (isMobile()) return;
-    // Allow vertical scroll inside scrollable panels
+    // Allow vertical scroll inside scrollable panel-inner
     var inner = panels[currentPanel].querySelector(".panel-inner");
     if (inner && inner.scrollHeight > inner.clientHeight) {
+      var atTop = inner.scrollTop <= 0;
+      var atBottom = inner.scrollTop + inner.clientHeight >= inner.scrollHeight - 2;
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-        // Check if at scroll boundaries
-        var atTop = inner.scrollTop <= 0;
-        var atBottom = inner.scrollTop + inner.clientHeight >= inner.scrollHeight - 2;
         if ((e.deltaY < 0 && !atTop) || (e.deltaY > 0 && !atBottom)) {
-          return; // Let it scroll vertically
+          return;
         }
       }
     }
@@ -80,9 +79,9 @@
     clearTimeout(wheelTimeout);
     wheelTimeout = setTimeout(function() {
       var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      if (delta > 15) goToPanel(currentPanel + 1, true);
-      else if (delta < -15) goToPanel(currentPanel - 1, true);
-    }, 50);
+      if (delta > 5) goToPanel(currentPanel + 1, true);
+      else if (delta < -5) goToPanel(currentPanel - 1, true);
+    }, 80);
   }, { passive: false });
 
   /* ===== TOUCH SWIPE (desktop horizontal) ===== */
