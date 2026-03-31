@@ -1,118 +1,260 @@
-const navLinks = document.getElementById("navLinks");
-hamburger.addEventListener("click", () => {
-  hamburger.classList.toggle("open");
-  navLinks.classList.toggle("open");
-});
-navLinks.querySelectorAll("a").forEach((a) => {
-  a.addEventListener("click", () => {
-    hamburger.classList.remove("open");
-    navLinks.classList.remove("open");
-  });
-});
+(function() {
+  "use strict";
 
-document.querySelectorAll(".filter-btn").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    document
-      .querySelectorAll(".filter-btn")
-      .forEach((b) => b.classList.remove("active"));
-    btn.classList.add("active");
-    const cat = btn.dataset.cat;
-    document.querySelectorAll(".gallery-item").forEach((item) => {
-      if (cat === "all" || item.dataset.cat === cat) {
-        item.classList.remove("hidden");
-      } else {
-        item.classList.add("hidden");
+  const container = document.getElementById("scrollContainer");
+  const roadBg = document.getElementById("roadBg");
+  const dots = document.querySelectorAll(".nav-dot");
+  const panels = document.querySelectorAll(".panel");
+  const hamburger = document.getElementById("navHamburger");
+  const navLinks = document.getElementById("navLinks");
+  const isMobile = () => window.innerWidth <= 768;
+
+  let currentPanel = 0;
+  let isAnimating = false;
+
+  /* ===== NAVIGATE TO PANEL ===== */
+  function goToPanel(index, smooth) {
+    if (index < 0 || index >= panels.length) return;
+    isAnimating = true;
+    currentPanel = index;
+    updateDots();
+    updateRoad();
+
+    if (isMobile()) {
+      // Mobile: vertical scroll
+      panels[index].scrollIntoView({ behavior: smooth ? "smooth" : "auto" });
+    } else {
+      // Desktop: slide container
+      const offset = index * window.innerWidth;
+      container.style.transition = smooth ? "transform 0.8s cubic-bezier(0.76, 0, 0.24, 1)" : "none";
+      container.style.transform = "translateX(-" + offset + "px)";
+    }
+
+    // Hide scroll hint after first navigation
+    const hint = document.getElementById("scrollHint");
+    if (hint && index > 0) hint.style.opacity = "0";
+
+    setTimeout(function() { isAnimating = false; }, smooth ? 900 : 50);
+
+    // Trigger fade-in for visible panel
+    setTimeout(function() {
+      panels[index].querySelectorAll(".fade-in").forEach(function(el, i) {
+        setTimeout(function() { el.classList.add("visible"); }, i * 100);
+      });
+    }, smooth ? 300 : 0);
+  }
+
+  /* ===== UPDATE NAV DOTS ===== */
+  function updateDots() {
+    dots.forEach(function(dot, i) {
+      dot.classList.toggle("active", i === currentPanel);
+    });
+  }
+
+  /* ===== ROAD PARALLAX ===== */
+  function updateRoad() {
+    var progress = currentPanel / (panels.length - 1);
+    var scale = 1 + progress * 0.15;
+    var xShift = -progress * 10;
+    roadBg.style.transform = "scale(" + scale + ") translateX(" + xShift + "%)";
+  }
+
+  /* ===== WHEEL NAVIGATION (desktop) ===== */
+  var wheelTimeout = null;
+  container.addEventListener("wheel", function(e) {
+    if (isMobile()) return;
+    // Allow vertical scroll inside scrollable panels
+    var inner = panels[currentPanel].querySelector(".panel-inner");
+    if (inner && inner.scrollHeight > inner.clientHeight) {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        // Check if at scroll boundaries
+        var atTop = inner.scrollTop <= 0;
+        var atBottom = inner.scrollTop + inner.clientHeight >= inner.scrollHeight - 2;
+        if ((e.deltaY < 0 && !atTop) || (e.deltaY > 0 && !atBottom)) {
+          return; // Let it scroll vertically
+        }
       }
+    }
+    e.preventDefault();
+    if (isAnimating) return;
+    clearTimeout(wheelTimeout);
+    wheelTimeout = setTimeout(function() {
+      var delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      if (delta > 15) goToPanel(currentPanel + 1, true);
+      else if (delta < -15) goToPanel(currentPanel - 1, true);
+    }, 50);
+  }, { passive: false });
+
+  /* ===== TOUCH SWIPE (desktop horizontal) ===== */
+  var touchStartX = 0, touchStartY = 0;
+  container.addEventListener("touchstart", function(e) {
+    if (isMobile()) return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+  container.addEventListener("touchend", function(e) {
+    if (isMobile()) return;
+    if (isAnimating) return;
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    var dy = e.changedTouches[0].clientY - touchStartY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 60) {
+      if (dx < 0) goToPanel(currentPanel + 1, true);
+      else goToPanel(currentPanel - 1, true);
+    }
+  }, { passive: true });
+
+  /* ===== MOBILE: detect current panel on scroll ===== */
+  if (isMobile()) {
+    container.style.transform = "none";
+    container.style.width = "100vw";
+    container.style.height = "auto";
+    container.style.flexDirection = "column";
+    container.style.overflowY = "auto";
+
+    var scrollDetect = null;
+    window.addEventListener("scroll", function() {
+      clearTimeout(scrollDetect);
+      scrollDetect = setTimeout(function() {
+        var best = 0, bestDist = Infinity;
+        panels.forEach(function(p, i) {
+          var rect = p.getBoundingClientRect();
+          var dist = Math.abs(rect.top);
+          if (dist < bestDist) { bestDist = dist; best = i; }
+        });
+        if (best !== currentPanel) {
+          currentPanel = best;
+          updateDots();
+          updateRoad();
+        }
+        // Fade in visible
+        panels[best].querySelectorAll(".fade-in:not(.visible)").forEach(function(el, i) {
+          setTimeout(function() { el.classList.add("visible"); }, i * 100);
+        });
+      }, 100);
+    }, { passive: true });
+  }
+
+  /* ===== NAV DOT CLICKS ===== */
+  dots.forEach(function(dot) {
+    dot.addEventListener("click", function() {
+      goToPanel(parseInt(dot.dataset.panel), true);
     });
   });
-});
 
-const lbImg = document.getElementById("lightbox-img");
-document.querySelectorAll(".gallery-item").forEach((item) => {
-  item.addEventListener("click", () => {
-    const img = item.querySelector("img");
-    if (img) {
-      lbImg.src = img.src;
-      lbImg.style.display = "block";
-    } else {
-      lbImg.src = "";
-      lbImg.style.display = "none";
-    }
-    document.getElementById("lightbox").classList.add("active");
+  /* ===== NAV LINK CLICKS ===== */
+  navLinks.querySelectorAll("a").forEach(function(a) {
+    a.addEventListener("click", function(e) {
+      e.preventDefault();
+      goToPanel(parseInt(a.dataset.panel), true);
+      hamburger.classList.remove("open");
+      navLinks.classList.remove("open");
+    });
   });
-});
 
-document.getElementById("lightbox").addEventListener("click", closeLightbox);
+  /* ===== HAMBURGER ===== */
+  hamburger.addEventListener("click", function() {
+    hamburger.classList.toggle("open");
+    navLinks.classList.toggle("open");
+  });
 
-document.addEventListener("contextmenu", (e) => e.preventDefault());
+  /* ===== KEYBOARD NAV ===== */
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") {
+      closeLightbox();
+      return;
+    }
+    if (!isMobile() && !isAnimating) {
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); goToPanel(currentPanel + 1, true); }
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") { e.preventDefault(); goToPanel(currentPanel - 1, true); }
+    }
+    if ((e.ctrlKey || e.metaKey) && ["s","u","p"].includes(e.key.toLowerCase())) {
+      e.preventDefault();
+    }
+  });
 
-document.addEventListener("dragstart", (e) => {
-  if (e.target.tagName === "IMG") e.preventDefault();
-});
+  /* ===== GALLERY FILTERS ===== */
+  document.querySelectorAll(".filter-btn").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      document.querySelectorAll(".filter-btn").forEach(function(b) { b.classList.remove("active"); });
+      btn.classList.add("active");
+      var cat = btn.dataset.cat;
+      document.querySelectorAll(".gallery-item").forEach(function(item) {
+        if (cat === "all" || item.dataset.cat === cat) item.classList.remove("hidden");
+        else item.classList.add("hidden");
+      });
+    });
+  });
 
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
-    closeLightbox();
-    return;
+  /* ===== LIGHTBOX ===== */
+  var lbImg = document.getElementById("lightbox-img");
+  document.querySelectorAll(".gallery-item").forEach(function(item) {
+    item.addEventListener("click", function() {
+      var img = item.querySelector("img");
+      if (img) {
+        lbImg.src = img.src;
+        lbImg.style.display = "block";
+      } else {
+        lbImg.style.display = "none";
+      }
+      document.getElementById("lightbox").classList.add("active");
+    });
+  });
+  document.getElementById("lightbox").addEventListener("click", closeLightbox);
+
+  /* ===== ANTI COPY ===== */
+  document.addEventListener("contextmenu", function(e) { e.preventDefault(); });
+  document.addEventListener("dragstart", function(e) { if (e.target.tagName === "IMG") e.preventDefault(); });
+
+  /* ===== CONTACT FORM ===== */
+  var contactForm = document.getElementById("contactForm");
+  var formStatus = document.getElementById("formStatus");
+  if (contactForm) {
+    contactForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      var btn = contactForm.querySelector("button");
+      btn.textContent = "Sending...";
+      btn.disabled = true;
+      fetch(contactForm.action, {
+        method: "POST",
+        body: new FormData(contactForm),
+        headers: { "Accept": "application/json" }
+      }).then(function(res) {
+        if (res.ok) {
+          formStatus.textContent = "Message sent! I'll be in touch soon.";
+          formStatus.className = "form-status visible ok";
+          contactForm.reset();
+        } else {
+          formStatus.textContent = "Something went wrong. Try again.";
+          formStatus.className = "form-status visible";
+        }
+        btn.textContent = "Send message \u2197";
+        btn.disabled = false;
+      }).catch(function() {
+        formStatus.textContent = "Network error. Please try again.";
+        formStatus.className = "form-status visible";
+        btn.textContent = "Send message \u2197";
+        btn.disabled = false;
+      });
+    });
   }
-  if (
-    (e.ctrlKey || e.metaKey) &&
-    ["s", "u", "p"].includes(e.key.toLowerCase())
-  ) {
-    e.preventDefault();
-  }
-});
+
+  /* ===== RESIZE HANDLER ===== */
+  window.addEventListener("resize", function() {
+    if (!isMobile()) {
+      container.style.cssText = "";
+      goToPanel(currentPanel, false);
+    }
+  });
+
+  /* ===== INIT ===== */
+  goToPanel(0, false);
+  // Fade in hero elements
+  panels[0].querySelectorAll(".fade-in").forEach(function(el, i) {
+    setTimeout(function() { el.classList.add("visible"); }, i * 100 + 200);
+  });
+
+})();
 
 function closeLightbox() {
   document.getElementById("lightbox").classList.remove("active");
 }
-
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => {
-          entry.target.classList.add("visible");
-        }, i * 80);
-        observer.unobserve(entry.target);
-      }
-    });
-  },
-  { threshold: 0.1 },
-);
-
-document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
-
-const contactForm = document.getElementById("contactForm");
-const formStatus = document.getElementById("formStatus");
-
-contactForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const btn = contactForm.querySelector("button");
-  btn.textContent = "Sending&#8230;";
-  btn.disabled = true;
-
-  try {
-    const res = await fetch(contactForm.action, {
-      method: "POST",
-      body: new FormData(contactForm),
-      headers: { Accept: "application/json" },
-    });
-
-    if (res.ok) {
-      formStatus.textContent = "Message sent &mdash; I'll be in touch soon.";
-      formStatus.className = "form-status visible ok";
-      contactForm.reset();
-      btn.textContent = "Send message &#8599;";
-    } else {
-      throw new Error();
-    }
-  } catch {
-    formStatus.textContent = "Something went wrong. Try emailing me directly.";
-    formStatus.className = "form-status visible err";
-    btn.textContent = "Send message &#8599;";
-  }
-
-  btn.disabled = false;
-  setTimeout(() => formStatus.classList.remove("visible"), 6000);
-});
