@@ -4,245 +4,170 @@
 <meta charset="UTF-8">
 <link rel="icon" type="image/x-icon" href="public/favicon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vladim&#237;r Kuba &mdash; Photography</title>
+<title>Vladim&#237;r Kuba &#8212; Photography</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="src/css/style.css">
 </head>
 <body>
 
-<nav>
+<nav id="mainNav">
   <a href="/" class="nav-logo-img" aria-label="Home"><img src="public/VK_LOGO.svg" alt="VK"></a>
-  <a href="/" class="nav-back" aria-label="Back to home">&#8592; Back</a>
+  <div class="nav-dots" id="navDots">
+    <button class="nav-dot active" data-panel="0" aria-label="Home"></button>
+    <button class="nav-dot" data-panel="1" aria-label="Work"></button>
+    <button class="nav-dot" data-panel="2" aria-label="About"></button>
+    <button class="nav-dot" data-panel="3" aria-label="Contact"></button>
+  </div>
   <button class="nav-hamburger" id="navHamburger" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
   <ul class="nav-links" id="navLinks">
-    <li><a href="#work">Work</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#" data-panel="0">Home</a></li>
+    <li><a href="#" data-panel="1">Work</a></li>
+    <li><a href="#" data-panel="2">About</a></li>
+    <li><a href="#" data-panel="3">Contact</a></li>
   </ul>
 </nav>
 
-<div class="hero">
-  <div class="hero-grid-line"></div>
-  <p class="hero-eyebrow">Photography &amp; Drone</p>
-  <h1 class="hero-title">
-    Vladim&#237;r
-    <span>Kuba</span>
-  </h1>
-  <p class="hero-sub">Prague-based photographer &amp; drone pilot &mdash; capturing light, space &amp; story.</p>
-  <div class="hero-scroll">
-    <div class="scroll-line"></div>
-    <span>Scroll</span>
-  </div>
-</div>
+<div class="road-bg" id="roadBg"></div>
 
-<section id="work">
-  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:3rem;">
-    <p class="section-label" style="margin-bottom:0;">Selected work</p>
-    <div class="filter-tabs">
-      <button class="filter-btn active" data-cat="all">All</button>
-      <button class="filter-btn" data-cat="street">Street</button>
-      <button class="filter-btn" data-cat="nature">Nature</button>
-      <button class="filter-btn" data-cat="animals">Animals</button>
-      <button class="filter-btn" data-cat="aerial">Aerial</button>
-      <button class="filter-btn" data-cat="architecture">Architecture</button>
+<div class="scroll-container" id="scrollContainer">
+
+  <!-- PANEL 0: Hero -->
+  <section class="panel panel-hero" id="panelHero">
+    <div class="hero-content">
+      <p class="hero-eyebrow">Photography &amp; Drone</p>
+      <h1 class="hero-title">
+        Vladim&#237;r
+        <span>Kuba</span>
+      </h1>
+      <p class="hero-sub">Prague-based photographer &amp; drone pilot &#8212; capturing light, space &amp; story.</p>
     </div>
-  </div>
-
-  <div class="gallery" id="gallery">
-
-    <div class="gallery-item fade-in" data-cat="street" style="aspect-ratio:3/4;">
-      <svg width="100%" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" style="display:block;aspect-ratio:3/4;"><rect width="300" height="400" fill="#151515"/><rect x="0" y="260" width="300" height="140" fill="#101010"/><ellipse cx="150" cy="180" rx="70" ry="90" fill="#1c1c1c"/><text x="150" y="185" text-anchor="middle" fill="#2e2e2e" font-family="monospace" font-size="9">your photo</text></svg>
-      <div class="gallery-item-label"><span>V&#225;clavsk&#233; n&#225;m&#283;st&#237;</span><small>Street &#183; Praha</small></div>
+    <div class="scroll-hint" id="scrollHint">
+      <span class="hint-text">Explore</span>
+      <span class="hint-arrow">&#8594;</span>
     </div>
+  </section>
 
-    <div class="gallery-item fade-in" data-cat="aerial" style="aspect-ratio:4/3;">
-      <svg width="100%" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="display:block;aspect-ratio:4/3;"><rect width="400" height="300" fill="#131313"/><rect x="0" y="180" width="400" height="120" fill="#0f0f0f"/><ellipse cx="200" cy="130" rx="110" ry="55" fill="#1a1a1a"/><text x="200" y="135" text-anchor="middle" fill="#2a2a2a" font-family="monospace" font-size="9">your photo</text></svg>
-      <div class="gallery-item-label"><span>Praha &mdash; aerial</span><small>Aerial &#183; DJI Mini 4 Pro</small></div>
-    </div>
-
-    <div class="gallery-item fade-in" data-cat="architecture" style="aspect-ratio:1/1;">
-      <svg width="100%" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="display:block;aspect-ratio:1/1;"><rect width="300" height="300" fill="#161616"/><rect x="30" y="30" width="240" height="240" fill="#121212"/><line x1="30" y1="30" x2="270" y2="270" stroke="#1f1f1f" stroke-width="1"/><line x1="270" y1="30" x2="30" y2="270" stroke="#1f1f1f" stroke-width="1"/><text x="150" y="158" text-anchor="middle" fill="#2a2a2a" font-family="monospace" font-size="9">your photo</text></svg>
-      <div class="gallery-item-label"><span>N&#225;rodn&#237; divadlo</span><small>Architecture &#183; Praha</small></div>
-    </div>
-
-    <div class="gallery-item fade-in" data-cat="nature" style="aspect-ratio:3/4;">
-      <svg width="100%" viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg" style="display:block;aspect-ratio:3/4;"><rect width="300" height="400" fill="#141414"/><rect x="0" y="250" width="300" height="150" fill="#0f0f0f"/><rect x="60" y="60" width="180" height="190" fill="#1d1d1d"/><text x="150" y="160" text-anchor="middle" fill="#2a2a2a" font-family="monospace" font-size="9">your photo</text></svg>
-      <div class="gallery-item-label"><span>Prokopsk&#233; &#250;dol&#237;</span><small>Nature &#183; Golden hour</small></div>
-    </div>
-
-    <div class="gallery-item fade-in" data-cat="animals" style="aspect-ratio:4/3;">
-      <svg width="100%" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="display:block;aspect-ratio:4/3;"><rect width="400" height="300" fill="#181818"/><rect x="0" y="140" width="400" height="160" fill="#121212"/><ellipse cx="200" cy="125" rx="80" ry="55" fill="#1e1e1e"/><text x="200" y="130" text-anchor="middle" fill="#2a2a2a" font-family="monospace" font-size="9">your photo</text></svg>
-      <div class="gallery-item-label"><span>Forest encounter</span><small>Animals &#183; Wildlife</small></div>
-    </div>
-
-    <div class="gallery-item fade-in" data-cat="street" style="aspect-ratio:2/3;">
-      <svg width="100%" viewBox="0 0 300 450" xmlns="http://www.w3.org/2000/svg" style="display:block;aspect-ratio:2/3;"><rect width="300" height="450" fill="#161616"/><rect x="40" y="40" width="220" height="370" fill="#111"/><circle cx="150" cy="200" r="65" fill="#1d1d1d"/><text x="150" y="205" text-anchor="middle" fill="#2a2a2a" font-family="monospace" font-size="9">your photo</text></svg>
-      <div class="gallery-item-label"><span>Nusle</span><small>Street &#183; Praha</small></div>
-    </div>
-
-    <div class="gallery-item fade-in" data-cat="nature" style="aspect-ratio:16/9;">
-      <svg width="100%" viewBox="0 0 400 225" xmlns="http://www.w3.org/2000/svg" style="display:block;aspect-ratio:16/9;"><rect width="400" height="225" fill="#151515"/><rect x="0" y="140" width="400" height="85" fill="#111"/><ellipse cx="200" cy="115" rx="140" ry="55" fill="#1a1a1a"/><text x="200" y="120" text-anchor="middle" fill="#2a2a2a" font-family="monospace" font-size="9">your photo</text></svg>
-      <div class="gallery-item-label"><span>Krajina</span><small>Nature &#183; Blue hour</small></div>
-    </div>
-
-    <div class="gallery-item fade-in" data-cat="animals" style="aspect-ratio:1/1;">
-      <svg width="100%" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="display:block;aspect-ratio:1/1;"><rect width="300" height="300" fill="#141414"/><circle cx="150" cy="130" r="75" fill="#1c1c1c"/><rect x="50" y="220" width="200" height="40" fill="#111"/><text x="150" y="135" text-anchor="middle" fill="#2a2a2a" font-family="monospace" font-size="9">your photo</text></svg>
-      <div class="gallery-item-label"><span>Stare down</span><small>Animals &#183; Close-up</small></div>
-    </div>
-
-    <div class="gallery-item fade-in" data-cat="aerial" style="aspect-ratio:3/2;">
-      <svg width="100%" viewBox="0 0 400 267" xmlns="http://www.w3.org/2000/svg" style="display:block;aspect-ratio:3/2;"><rect width="400" height="267" fill="#131313"/><rect x="0" y="150" width="400" height="117" fill="#0e0e0e"/><rect x="80" y="40" width="240" height="110" fill="#1a1a1a"/><text x="200" y="100" text-anchor="middle" fill="#2a2a2a" font-family="monospace" font-size="9">your photo</text></svg>
-      <div class="gallery-item-label"><span>St&#345;edn&#237; &#268;echy</span><small>Aerial &#183; Countryside</small></div>
-    </div>
-
-    <div class="gallery-item fade-in" data-cat="architecture" style="aspect-ratio:2/3;">
-      <svg width="100%" viewBox="0 0 300 450" xmlns="http://www.w3.org/2000/svg" style="display:block;aspect-ratio:2/3;"><rect width="300" height="450" fill="#161616"/><rect x="70" y="30" width="160" height="390" fill="#131313"/><rect x="100" y="60" width="100" height="340" fill="#1a1a1a"/><text x="150" y="240" text-anchor="middle" fill="#2a2a2a" font-family="monospace" font-size="9">your photo</text></svg>
-      <div class="gallery-item-label"><span>&#381;i&#382;kov tower</span><small>Architecture &#183; Praha</small></div>
-    </div>
-
-    <div class="gallery-item fade-in" data-cat="nature" style="aspect-ratio:1/1;">
-      <svg width="100%" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="display:block;aspect-ratio:1/1;"><rect width="300" height="300" fill="#141414"/><ellipse cx="150" cy="150" rx="110" ry="110" fill="#191919"/><ellipse cx="150" cy="150" rx="70" ry="70" fill="#141414"/><text x="150" y="155" text-anchor="middle" fill="#2a2a2a" font-family="monospace" font-size="9">your photo</text></svg>
-      <div class="gallery-item-label"><span>Bokeh</span><small>Nature &#183; Detail</small></div>
-    </div>
-
-    <div class="gallery-item fade-in" data-cat="street" style="aspect-ratio:4/3;">
-      <svg width="100%" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" style="display:block;aspect-ratio:4/3;"><rect width="400" height="300" fill="#181818"/><rect x="0" y="200" width="400" height="100" fill="#111"/><rect x="100" y="50" width="200" height="150" fill="#1d1d1d"/><text x="200" y="130" text-anchor="middle" fill="#2a2a2a" font-family="monospace" font-size="9">your photo</text></svg>
-      <div class="gallery-item-label"><span>Mal&#225; Strana</span><small>Street &#183; Night</small></div>
-    </div>
-
-    <div class="gallery-item fade-in" data-cat="street" style="aspect-ratio:4/3;">
-      <img src="public/T3%208423.jpg" alt="Tram 21 Radlick&#225;" style="width:100%;height:100%;object-fit:cover;display:block;">
-      <div class="gallery-item-label"><span>T3 8423</span><small>Street &#183; Praha</small></div>
-    </div>
-
-
-    <div class="gallery-item fade-in" data-cat="animals" style="aspect-ratio:3/4;">
-      <img src="public/DSC01684.jpg" alt="Basilisk" style="width:100%;height:100%;object-fit:cover;display:block;" draggable="false" oncontextmenu="return false">
-      <div class="gallery-item-label"><span>Basilisk</span><small>Prague ZOO</small></div>
-    </div>
-
-
-    <div class="gallery-item fade-in" data-cat="animals" style="aspect-ratio:3/4;">
-      <img src="public/DSC01724.jpg" alt="Bird" style="width:100%;height:100%;object-fit:cover;display:block;" draggable="false" oncontextmenu="return false">
-      <div class="gallery-item-label"><span>Bird</span><small>Zoo Praha</small></div>
-    </div>
-
-  </div>
-</section>
-<section id="about">
-  <p class="section-label">About</p>
-  <div class="about-grid">
-    <div>
-      <h2 class="about-title">
-        Seeing the
-        <span>unseen</span>
-        frame.
-      </h2>
-      <div class="about-body">
-        <p>I'm Vladim&#237;r &mdash; a photographer and drone pilot based in Prague, Czechia. My work lives at the intersection of light, space, and the quiet moments between.</p>
-        <p>Whether I'm on the ground in Prokopsk&#233; &#250;dol&#237; or 120 metres above the city, I'm looking for the same thing: the frame that makes you pause.</p>
-        <p>Available for commissioned work, collaborations, and editorial projects throughout the Czech Republic and Europe.</p>
+  <!-- PANEL 1: Work / Photos -->
+  <section class="panel panel-work" id="panelWork">
+    <div class="panel-inner">
+      <div class="section-header">
+        <p class="section-label">Selected work</p>
+        <div class="filter-tabs">
+          <button class="filter-btn active" data-cat="all">All</button>
+          <button class="filter-btn" data-cat="street">Street</button>
+          <button class="filter-btn" data-cat="animals">Animals</button>
+          <button class="filter-btn" data-cat="aerial">Aerial</button>
+        </div>
       </div>
-      <div class="gear-list">
-        <p class="gear-header">Kit</p>
-        <div class="gear-item"><div class="gear-dot"></div>DJI Mini 4 Pro</div>
-        <div class="gear-item"><div class="gear-dot"></div>Sony A7 III</div>
-        <div class="gear-item"><div class="gear-dot"></div>iPhone 16 Pro</div>
-        <div class="gear-item"><div class="gear-dot"></div>DaVinci Resolve</div>
-        <div class="gear-item"><div class="gear-dot"></div>Adobe Creative Cloud</div>
+      <div class="gallery" id="gallery">
+
+        <div class="gallery-item fade-in" data-cat="street" style="aspect-ratio:4/3;">
+          <img src="public/T3%208423.jpg" alt="Tram T3 8423" draggable="false" oncontextmenu="return false">
+          <div class="gallery-item-label"><span>T3 8423</span><small>Street &#183; Praha</small></div>
+        </div>
+
+        <div class="gallery-item fade-in" data-cat="animals" style="aspect-ratio:3/4;">
+          <img src="public/DSC01684.jpg" alt="Basilisk" draggable="false" oncontextmenu="return false">
+          <div class="gallery-item-label"><span>Basilisk</span><small>Animals &#183; Zoo Praha</small></div>
+        </div>
+
+        <div class="gallery-item fade-in" data-cat="animals" style="aspect-ratio:3/4;">
+          <img src="public/DSC01724.jpg" alt="Bird" draggable="false" oncontextmenu="return false">
+          <div class="gallery-item-label"><span>Bird</span><small>Animals &#183; Zoo Praha</small></div>
+        </div>
+
       </div>
     </div>
-    <div class="about-stats">
-      <div class="stat-row">
-        <span class="stat-label">Based in</span>
-        <span class="stat-value">Praha</span>
-      </div>
-      <div class="stat-row">
-        <span class="stat-label">Drone certified</span>
-        <span class="stat-value">C0 / EU</span>
-      </div>
-      <div class="stat-row">
-        <span class="stat-label">Available for</span>
-        <span class="stat-value" style="font-size:1rem;">Commission</span>
-      </div>
-      <div class="stat-row">
-        <span class="stat-label">Turnaround</span>
-        <span class="stat-value" style="font-size:1.1rem;">48&#8211;72 h</span>
+  </section>
+
+  <!-- PANEL 2: About -->
+  <section class="panel panel-about" id="panelAbout">
+    <div class="panel-inner">
+      <p class="section-label">About</p>
+      <div class="about-grid">
+        <div>
+          <h2 class="about-title">
+            Seeing the
+            <span>unseen</span>
+            frame.
+          </h2>
+          <div class="about-body">
+            <p>I&#8217;m Vladim&#237;r &#8212; a photographer and drone pilot based in Prague, Czechia. My work lives at the intersection of light, space, and the quiet moments between.</p>
+            <p>Whether I&#8217;m on the ground or 120 metres above the city, I&#8217;m looking for the same thing: the frame that makes you pause.</p>
+            <p>Available for commissioned work, collaborations, and editorial projects throughout the Czech Republic and Europe.</p>
+          </div>
+          <div class="gear-list">
+            <p class="gear-header">Kit</p>
+            <div class="gear-item"><div class="gear-dot"></div>DJI Mini 4 Pro</div>
+            <div class="gear-item"><div class="gear-dot"></div>Sony A7 III</div>
+            <div class="gear-item"><div class="gear-dot"></div>iPhone 16 Pro</div>
+            <div class="gear-item"><div class="gear-dot"></div>DaVinci Resolve</div>
+            <div class="gear-item"><div class="gear-dot"></div>Adobe Creative Cloud</div>
+          </div>
+        </div>
+        <div class="about-stats">
+          <div class="stat-row"><span class="stat-label">Based in</span><span class="stat-value">Praha</span></div>
+          <div class="stat-row"><span class="stat-label">Drone certified</span><span class="stat-value">C0 / EU</span></div>
+          <div class="stat-row"><span class="stat-label">Available for</span><span class="stat-value" style="font-size:1rem;">Commission</span></div>
+          <div class="stat-row"><span class="stat-label">Turnaround</span><span class="stat-value" style="font-size:1.1rem;">48&#8211;72 h</span></div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="contact" class="contact-section">
-  <div class="contact-inner">
-    <div>
+  <!-- PANEL 3: Contact -->
+  <section class="panel panel-contact" id="panelContact">
+    <div class="panel-inner">
       <p class="section-label">Contact</p>
-      <h2 class="contact-title">
-        Let's
-        <span>make</span>
-        something.
-      </h2>
-      <div class="contact-links" style="margin-top:2.5rem;">
-        <a href="https://instagram.com/vladisekkk" target="_blank" class="contact-link">
-          <span>Instagram</span>
-          <span class="contact-link-arrow">&#8599;</span>
-        </a>
-        <a href="https://www.linkedin.com/in/vladim%C3%ADr-kuba-0a2768328/" target="_blank" class="contact-link">
-          <span>LinkedIn</span>
-          <span class="contact-link-arrow">&#8599;</span>
-        </a>
+      <div class="contact-inner">
+        <div>
+          <h2 class="contact-title">
+            Let&#8217;s
+            <span>make</span>
+            something.
+          </h2>
+          <div class="contact-links" style="margin-top:2rem;">
+            <a href="https://instagram.com/vladisekkk" target="_blank" class="contact-link">
+              <span>Instagram</span><span class="contact-link-arrow">&#8599;</span>
+            </a>
+            <a href="https://www.linkedin.com/in/vladim%C3%ADr-kuba-0a2768328/" target="_blank" class="contact-link">
+              <span>LinkedIn</span><span class="contact-link-arrow">&#8599;</span>
+            </a>
+          </div>
+        </div>
+        <form class="contact-form" id="contactForm" action="https://formspree.io/f/mzdkpwjr" method="POST">
+          <div class="form-row">
+            <label>Name<input type="text" name="name" placeholder="Jan Nov&#225;k" required></label>
+            <label>Email<input type="email" name="email" placeholder="jan@example.com" required></label>
+          </div>
+          <div class="form-row">
+            <label>Subject<input type="text" name="subject" placeholder="Project enquiry / Collaboration / &#8230;"></label>
+            <label><span style="display:flex;justify-content:space-between;">Phone <span style="opacity:0.4;font-size:0.8em;">(optional)</span></span><input type="tel" name="phone" placeholder="+420 123 456 789"></label>
+          </div>
+          <label>Message<textarea name="message" rows="4" placeholder="Tell me about your project&#8230;" required></textarea></label>
+          <div class="form-submit">
+            <button type="submit">Send message &#8599;</button>
+            <span class="form-status" id="formStatus"></span>
+          </div>
+        </form>
       </div>
     </div>
+    <footer>
+      <img src="public/VK_LOGO.svg" alt="VK" style="width:20px;height:20px;">
+      <span>&#169; 2026 Vladim&#237;r Kuba. Praha, CZ.</span>
+    </footer>
+  </section>
 
-    <!-- Contact form &mdash; powered by Formspree (free). Replace YOUR_FORM_ID after signing up at formspree.io -->
-    <form class="contact-form" id="contactForm" action="https://formspree.io/f/mzdkpwjr" method="POST">
-      <div class="form-row">
-        <label>
-          Name
-          <input type="text" name="name" placeholder="Jan Nov&#225;k" required>
-        </label>
-        <label>
-          Email
-          <input type="email" name="email" placeholder="jan@example.com" required>
-        </label>
-      </div>
-      <div class="form-row">
-        <label>
-          Subject
-          <input type="text" name="subject" placeholder="Project enquiry / Collaboration / &#8230;">
-        </label>
-        <label>
-          <span style="display:flex;justify-content:space-between;">Phone <span style="opacity:0.4;font-size:0.8em;">(optional)</span></span>
-          <input type="tel" name="phone" placeholder="+420 123 456 789">
-        </label>
-      </div>
-      <label>
-        Message
-        <textarea name="message" rows="5" placeholder="Tell me about your project&#8230;" required></textarea>
-      </label>
-      <div class="form-submit">
-        <button type="submit">Send message &#8599;</button>
-        <span class="form-status" id="formStatus"></span>
-      </div>
-    </form>
-  </div>
-</section>
-
-<footer>
-  <img src="public/VK_LOGO.svg" alt="VK" style="width:24px;height:24px;">
-  <span>&#169; 2026 Vladim&#237;r Kuba. Praha, CZ.</span>
-  <span>Photography &amp; Drone</span>
-</footer>
+</div>
 
 <div class="lightbox" id="lightbox">
   <span class="lightbox-close" onclick="closeLightbox()">Close [esc]</span>
-  <img id="lightbox-img" src="" alt="" style="max-width:90vw;max-height:90vh;object-fit:contain;display:none;border-radius:2px;">
+  <img id="lightbox-img" src="" alt="" draggable="false" oncontextmenu="return false">
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script src="src/js/script.js"></script>
 </body>
 </html>
