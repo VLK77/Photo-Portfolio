@@ -37,7 +37,7 @@
   }
 
   .nav-logo-img { display:flex; align-items:center; text-decoration:none; }
-  .nav-logo-img img { height:38px; width:auto; display:block; mix-blend-mode:screen; }
+  .nav-logo-img img { height:38px; width:auto; display:block;  }
 
   .nav-logo {
     font-family: var(--font-display);
