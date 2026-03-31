@@ -3,7 +3,6 @@ const REPO = 'VLK77/Photo-Portfolio';
   let selectedFile = null;
   let detectedRatio = '3/4';
 
-  // ── Token ──────────────────────────────────────────────
   function saveToken() {
     const t = document.getElementById('token-input').value.trim();
     if (!t) return;
@@ -25,12 +24,10 @@ const REPO = 'VLK77/Photo-Portfolio';
     }
   }
 
-  // Auto-login if token exists
   window.addEventListener('DOMContentLoaded', () => {
     const t = sessionStorage.getItem('gh_token');
     if (t) verifyToken(t);
 
-    // Drag & drop
     const dz = document.getElementById('dropzone');
     dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
     dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
@@ -40,13 +37,11 @@ const REPO = 'VLK77/Photo-Portfolio';
       if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
     });
 
-    // Enter key on token
     document.getElementById('token-input').addEventListener('keydown', e => {
       if (e.key === 'Enter') saveToken();
     });
   });
 
-  // ── File handling ──────────────────────────────────────
   function handleFile(file) {
     if (!file || !file.type.startsWith('image/')) return;
     selectedFile = file;
@@ -67,7 +62,6 @@ const REPO = 'VLK77/Photo-Portfolio';
       document.getElementById('dropzone').style.display = 'none';
       document.getElementById('upload-btn').disabled = false;
 
-      // Auto-fill title from filename
       const nameNoExt = file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
       if (!document.getElementById('title-input').value)
         document.getElementById('title-input').value = nameNoExt;
@@ -83,7 +77,6 @@ const REPO = 'VLK77/Photo-Portfolio';
     document.getElementById('file-input').value = '';
   }
 
-  // ── Upload ──────────────────────────────────────────────
   async function uploadPhoto() {
     const token = sessionStorage.getItem('gh_token');
     const title = document.getElementById('title-input').value.trim() || selectedFile.name;
@@ -96,7 +89,6 @@ const REPO = 'VLK77/Photo-Portfolio';
     setStep('Uploading photo...', 20);
 
     try {
-      // 1. Upload image
       const imgB64 = await fileToBase64(selectedFile);
       const imgRes = await ghPut(`contents/${encodeURIComponent(filename)}`, {
         message: `Add photo: ${filename}`,
@@ -109,7 +101,6 @@ const REPO = 'VLK77/Photo-Portfolio';
 
       setStep('Reading gallery...', 50);
 
-      // 2. Get index.html
       const htmlRes = await fetch(`https://api.github.com/repos/${REPO}/contents/index.html?ref=${BRANCH}`, {
         headers: { Authorization: `token ${token}` }
       });
@@ -118,21 +109,18 @@ const REPO = 'VLK77/Photo-Portfolio';
 
       setStep('Adding to gallery...', 70);
 
-      // 3. Build new gallery item
       const newItem = `
     <div class="gallery-item fade-in" data-cat="${cat}" style="aspect-ratio:${detectedRatio};">
       <img src="${filename.replace(/ /g, '%20')}" alt="${title}" style="width:100%;height:100%;object-fit:cover;display:block;" draggable="false" oncontextmenu="return false">
       <div class="gallery-item-label"><span>${title}</span><small>${sub}</small></div>
     </div>`;
 
-      // Insert before gallery closing tags
       const marker = '  </div>\n</section>\n<section id="about">';
       if (!html.includes(marker)) throw new Error('Could not find gallery section in HTML');
       html = html.replace(marker, newItem + '\n\n' + marker);
 
       setStep('Saving HTML...', 85);
 
-      // 4. Push index.html
       const updatedB64 = btoa(unescape(encodeURIComponent(html)));
       const pushRes = await ghPut('contents/index.html', {
         message: `Add ${title} to ${cat} gallery`,
@@ -165,7 +153,6 @@ const REPO = 'VLK77/Photo-Portfolio';
     }
   }
 
-  // ── Helpers ─────────────────────────────────────────────
   function ghPut(path, body, token) {
     return fetch(`https://api.github.com/repos/${REPO}/${path}`, {
       method: 'PUT',

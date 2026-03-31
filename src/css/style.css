@@ -212,7 +212,6 @@
     z-index: 1;
   }
 
-  /* transparent shield &mdash; sits above the image, blocks direct right-click/drag on it */
   .gallery-item::after {
     content: '';
     position: absolute;
@@ -264,7 +263,6 @@
     -webkit-user-drag: none;
   }
 
-  /* also block pointer events on inline gallery images (e.g. lightbox target) */
   .gallery-item img {
     pointer-events: none;
     user-select: none;
@@ -402,7 +400,6 @@
 
   .contact-links { display: flex; flex-direction: column; }
 
-  /* &#9472;&#9472; Contact form &#9472;&#9472; */
   .contact-form { display: flex; flex-direction: column; gap: 1rem; }
 
   .contact-form .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
@@ -559,7 +556,6 @@
 
   .fade-in.visible { opacity: 1; transform: none; }
 
-  /* &#9472;&#9472; Hamburger &#9472;&#9472; */
   .nav-hamburger {
     display: none;
     flex-direction: column;
@@ -605,11 +601,8 @@
     .hero-grid-line { display: none; }
     section { padding: 4rem 1.5rem; }
     footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
-    /* Work section header &mdash; stack on mobile */
     #work > div:first-child { flex-direction: column; align-items: flex-start !important; }
-    /* Stat rows &mdash; shrink font on small screens */
     .stat-value { font-size: 1.1rem !important; }
-    /* Contact title */
     .contact-title { font-size: clamp(2.4rem, 9vw, 4rem); }
   }
 
