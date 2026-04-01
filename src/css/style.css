@@ -30,7 +30,7 @@ a { color: inherit; text-decoration: none; }
 .road-bg {
   position: fixed;
   top: 0; left: 0;
-  width: 200vw;
+  width: 400vw;
   height: 100vh;
   height: 100svh;
   z-index: 0;
@@ -51,7 +51,7 @@ a { color: inherit; text-decoration: none; }
   content: '';
   position: absolute;
   inset: 0;
-  width: 200vw;
+  width: 400vw;
   background: rgba(8,8,8,0.65);
   pointer-events: none;
 }
