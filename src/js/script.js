@@ -53,10 +53,10 @@
 
   /* ===== ROAD PARALLAX ===== */
   function updateRoad() {
-    var progress = currentPanel / (panels.length - 1);
-    var scale = 1 + progress * 0.15;
-    var xShift = -progress * 10;
-    roadBg.style.transform = "scale(" + scale + ") translateX(" + xShift + "%)";
+    // Shift the 200vw road strip left as panels advance
+    // Panel 0 = 0vw, Panel 3 = -100vw (showing the mirrored tile)
+    var shift = currentPanel * (100 / (panels.length - 1));
+    roadBg.style.transform = "translateX(-" + shift + "vw)";
   }
 
   /* ===== WHEEL NAVIGATION (desktop) ===== */
