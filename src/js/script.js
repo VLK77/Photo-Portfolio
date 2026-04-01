@@ -55,7 +55,7 @@
   function updateRoad() {
     // Shift the 200vw road strip left as panels advance
     // Panel 0 = 0vw, Panel 3 = -100vw (showing the mirrored tile)
-    var shift = currentPanel * (100 / (panels.length - 1));
+    var shift = currentPanel * 100;
     roadBg.style.transform = "translateX(-" + shift + "vw)";
   }
 
