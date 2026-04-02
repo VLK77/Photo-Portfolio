@@ -28,15 +28,14 @@ a { color: inherit; text-decoration: none; }
 
 /* ===== ROAD BACKGROUND (parallax) ===== */
 .road-bg {
-  position: fixed;
+  position: absolute;
   top: 0; left: 0;
   width: 400vw;
   height: 100vh;
   height: 100svh;
   z-index: 0;
   display: flex;
-  will-change: transform;
-  transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
+  pointer-events: none;
 }
 .road-tile {
   width: 100vw;
@@ -148,6 +147,7 @@ nav > * { pointer-events: all; }
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
+  z-index: 1;
 }
 
 .panel-inner {
