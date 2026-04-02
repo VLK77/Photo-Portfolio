@@ -52,13 +52,15 @@
 
     <div class="field">
       <label>Category</label>
-      <select id="cat-input">
+      <select id="cat-input" onchange="toggleCustomCat()">
         <option value="street">Street</option>
         <option value="nature">Nature</option>
         <option value="animals" selected>Animals</option>
         <option value="aerial">Aerial</option>
         <option value="architecture">Architecture</option>
+        <option value="__custom__">+ New category...</option>
       </select>
+      <input type="text" id="custom-cat-input" placeholder="e.g. Landscape" style="display:none;margin-top:0.5rem;">
     </div>
 
     <div class="field">
