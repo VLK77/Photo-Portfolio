@@ -137,17 +137,19 @@ const REPO = 'VLK77/Photo-Portfolio';
       html = html.replace(marker, newItem + '\n\n' + marker);
 
       // Add filter button if new category doesn't exist yet
-      var btnMarker = 'data-cat="' + cat + '"';
-      if (html.indexOf('class="filter-btn" ' + btnMarker) === -1) {
-        var lastBtn = html.lastIndexOf('</button>\n    </div>\n  </div>');
-        if (lastBtn === -1) {
-          // Try alternate: find closing of filter-tabs
-          var filterEnd = '</div>\n      </div>';
-          var btnHtml = '\n      <button class="filter-btn" data-cat="' + cat + '">' + catLabel + '</button>';
-          var tabsClose = html.indexOf('</div>\n  </div>\n\n  <div class="gallery"');
-          if (tabsClose !== -1) {
-            html = html.slice(0, tabsClose) + btnHtml + html.slice(tabsClose);
+      if (html.indexOf('data-cat="' + cat + '">' + catLabel + '</button>') === -1) {
+        var btnHtml = '\n          <button class="filter-btn" data-cat="' + cat + '">' + catLabel + '</button>';
+        // Insert before the closing </div> of filter-tabs
+        var filterClose = html.indexOf('\n        </div>\n  </div>\n\n  <div class="gallery"');
+        if (filterClose === -1) filterClose = html.indexOf('</div>\n      </div>\n\n      <div class="gallery"');
+        if (filterClose === -1) {
+          // Generic: find last filter button and insert after it
+          var lastFilterBtn = html.lastIndexOf('</button>\n        </div>');
+          if (lastFilterBtn !== -1) {
+            html = html.slice(0, lastFilterBtn + 9) + btnHtml + html.slice(lastFilterBtn + 9);
           }
+        } else {
+          html = html.slice(0, filterClose) + btnHtml + html.slice(filterClose);
         }
       }
 
