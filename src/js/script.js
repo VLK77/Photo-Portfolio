@@ -21,8 +21,9 @@
     updateRoad();
 
     if (isMobile()) {
-      // Mobile: vertical scroll
-      panels[index].scrollIntoView({ behavior: smooth ? "smooth" : "auto" });
+      // Mobile: scroll container to panel position
+      var panelTop = panels[index].offsetTop;
+      container.scrollTo({ top: panelTop, behavior: smooth ? "smooth" : "auto" });
     } else {
       // Desktop: slide container
       const offset = index * window.innerWidth;
@@ -102,31 +103,23 @@
   /* ===== MOBILE: detect current panel on scroll ===== */
   if (isMobile()) {
     container.style.transform = "none";
-    container.style.width = "100vw";
-    container.style.height = "auto";
-    container.style.flexDirection = "column";
-    container.style.overflowY = "auto";
 
-    var scrollDetect = null;
-    window.addEventListener("scroll", function() {
-      clearTimeout(scrollDetect);
-      scrollDetect = setTimeout(function() {
-        var best = 0, bestDist = Infinity;
-        panels.forEach(function(p, i) {
-          var rect = p.getBoundingClientRect();
-          var dist = Math.abs(rect.top);
-          if (dist < bestDist) { bestDist = dist; best = i; }
-        });
-        if (best !== currentPanel) {
-          currentPanel = best;
-          updateDots();
-          updateRoad();
-        }
-        // Fade in visible
-        panels[best].querySelectorAll(".fade-in:not(.visible)").forEach(function(el, i) {
-          setTimeout(function() { el.classList.add("visible"); }, i * 100);
-        });
-      }, 100);
+    // Listen for scroll on the container itself (not window)
+    container.addEventListener("scroll", function() {
+      var best = 0, bestDist = Infinity;
+      panels.forEach(function(p, i) {
+        var rect = p.getBoundingClientRect();
+        var dist = Math.abs(rect.top);
+        if (dist < bestDist) { bestDist = dist; best = i; }
+      });
+      if (best !== currentPanel) {
+        currentPanel = best;
+        updateDots();
+      }
+      // Fade in visible
+      panels[best].querySelectorAll(".fade-in:not(.visible)").forEach(function(el, i) {
+        setTimeout(function() { el.classList.add("visible"); }, i * 100);
+      });
     }, { passive: true });
   }
 
