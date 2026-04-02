@@ -1,3 +1,15 @@
+function toggleCustomCat() {
+  var sel = document.getElementById('cat-input');
+  var custom = document.getElementById('custom-cat-input');
+  if (sel.value === '__custom__') {
+    custom.style.display = 'block';
+    custom.focus();
+  } else {
+    custom.style.display = 'none';
+    custom.value = '';
+  }
+}
+
 const REPO = 'VLK77/Photo-Portfolio';
   const BRANCH = 'main';
   let selectedFile = null;
@@ -80,7 +92,12 @@ const REPO = 'VLK77/Photo-Portfolio';
   async function uploadPhoto() {
     const token = sessionStorage.getItem('gh_token');
     const title = document.getElementById('title-input').value.trim() || selectedFile.name;
-    const cat = document.getElementById('cat-input').value;
+    var cat = document.getElementById('cat-input').value;
+    if (cat === '__custom__') {
+      cat = document.getElementById('custom-cat-input').value.trim().toLowerCase().replace(/\s+/g, '-');
+      if (!cat) { setProgress(false); document.getElementById('upload-error').style.display = 'block'; document.getElementById('upload-error').textContent = '\u2715 Error: Please enter a category name'; return; }
+    }
+    const catLabel = cat.charAt(0).toUpperCase() + cat.slice(1).replace(/-/g, ' ');
     const sub = document.getElementById('sub-input').value.trim() ||
       (cat.charAt(0).toUpperCase() + cat.slice(1)) + ' · Praha';
     const filename = selectedFile.name;
@@ -119,6 +136,21 @@ const REPO = 'VLK77/Photo-Portfolio';
       if (!html.includes(marker)) throw new Error('Could not find gallery section in HTML');
       html = html.replace(marker, newItem + '\n\n' + marker);
 
+      // Add filter button if new category doesn't exist yet
+      var btnMarker = 'data-cat="' + cat + '"';
+      if (html.indexOf('class="filter-btn" ' + btnMarker) === -1) {
+        var lastBtn = html.lastIndexOf('</button>\n    </div>\n  </div>');
+        if (lastBtn === -1) {
+          // Try alternate: find closing of filter-tabs
+          var filterEnd = '</div>\n      </div>';
+          var btnHtml = '\n      <button class="filter-btn" data-cat="' + cat + '">' + catLabel + '</button>';
+          var tabsClose = html.indexOf('</div>\n  </div>\n\n  <div class="gallery"');
+          if (tabsClose !== -1) {
+            html = html.slice(0, tabsClose) + btnHtml + html.slice(tabsClose);
+          }
+        }
+      }
+
       setStep('Saving HTML...', 85);
 
       const updatedB64 = btoa(unescape(encodeURIComponent(html)));
@@ -138,7 +170,7 @@ const REPO = 'VLK77/Photo-Portfolio';
 
       const msg = document.getElementById('success-msg');
       msg.style.display = 'block';
-      msg.innerHTML = `✓ "${title}" added to <strong>${cat}</strong> gallery.<br><span style="color:#3a7a3a;font-size:0.65rem;">GitHub Pages updates in ~1 min → <a href="https://vlakuba.com" target="_blank" style="color:#5a9a5a;">vlakuba.com</a></span>`;
+      msg.innerHTML = `✓ "${title}" added to <strong>${catLabel}</strong> gallery.<br><span style="color:#3a7a3a;font-size:0.65rem;">GitHub Pages updates in ~1 min → <a href="https://vlakuba.com" target="_blank" style="color:#5a9a5a;">vlakuba.com</a></span>`;
 
       removeFile();
       document.getElementById('title-input').value = '';
