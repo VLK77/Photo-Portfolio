@@ -2,7 +2,7 @@
   "use strict";
 
   const container = document.getElementById("scrollContainer");
-  const roadBg = document.getElementById("roadBg");
+  // road-bg moves with scroll-container, no separate animation needed
   const dots = document.querySelectorAll(".nav-dot");
   const panels = document.querySelectorAll(".panel");
   const hamburger = document.getElementById("navHamburger");
@@ -53,10 +53,7 @@
 
   /* ===== ROAD PARALLAX ===== */
   function updateRoad() {
-    // Shift the 200vw road strip left as panels advance
-    // Panel 0 = 0vw, Panel 3 = -100vw (showing the mirrored tile)
-    var shift = currentPanel * 100;
-    roadBg.style.transform = "translateX(-" + shift + "vw)";
+    // Road is inside scroll-container now, moves automatically
   }
 
   /* ===== WHEEL NAVIGATION (desktop) ===== */
