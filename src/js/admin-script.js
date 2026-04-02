@@ -199,11 +199,32 @@ const REPO = 'VLK77/Photo-Portfolio';
   }
 
   function fileToBase64(file) {
-    return new Promise((res, rej) => {
-      const r = new FileReader();
-      r.onload = e => res(e.target.result.split(',')[1]);
-      r.onerror = rej;
-      r.readAsDataURL(file);
+    var MAX_DIM = 1600;
+    var QUALITY = 0.80;
+    return new Promise(function(res, rej) {
+      var reader = new FileReader();
+      reader.onerror = rej;
+      reader.onload = function(e) {
+        var img = new Image();
+        img.onload = function() {
+          var w = img.width, h = img.height;
+          // Only resize if larger than MAX_DIM
+          if (w > MAX_DIM || h > MAX_DIM) {
+            if (w > h) { h = Math.round(h * MAX_DIM / w); w = MAX_DIM; }
+            else { w = Math.round(w * MAX_DIM / h); h = MAX_DIM; }
+          }
+          var canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          var ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          var dataUrl = canvas.toDataURL('image/jpeg', QUALITY);
+          res(dataUrl.split(',')[1]);
+        };
+        img.onerror = rej;
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
     });
   }
 
