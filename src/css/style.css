@@ -509,10 +509,15 @@ footer {
 
 /* ===== MOBILE ===== */
 @media (max-width: 768px) {
+  html, body {
+    overflow: visible;
+    height: auto;
+  }
   .scroll-container {
     flex-direction: column;
     width: 100vw;
-    height: auto;
+    height: 100vh;
+    height: 100svh;
     overflow-y: auto;
     overflow-x: hidden;
     scroll-snap-type: y mandatory;
@@ -524,6 +529,19 @@ footer {
     min-height: 100svh;
     height: auto;
     scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+  .road-bg {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    height: 100svh;
+    flex-direction: column;
+  }
+  .road-tile {
+    width: 100vw;
+    height: 100vh;
+    height: 100svh;
   }
   .panel-hero {
     min-height: 100vh;
