@@ -90,7 +90,7 @@ const REPO = 'VLK77/Photo-Portfolio';
 
     try {
       const imgB64 = await fileToBase64(selectedFile);
-      const imgRes = await ghPut(`contents/${encodeURIComponent(filename)}`, {
+      const imgRes = await ghPut(`contents/public/${encodeURIComponent(filename)}`, {
         message: `Add photo: ${filename}`,
         content: imgB64
       }, token);
@@ -111,11 +111,11 @@ const REPO = 'VLK77/Photo-Portfolio';
 
       const newItem = `
     <div class="gallery-item fade-in" data-cat="${cat}" style="aspect-ratio:${detectedRatio};">
-      <img src="${filename.replace(/ /g, '%20')}" alt="${title}" style="width:100%;height:100%;object-fit:cover;display:block;" draggable="false" oncontextmenu="return false">
+      <img src="public/${filename.replace(/ /g, '%20')}" alt="${title}" style="width:100%;height:100%;object-fit:cover;display:block;" draggable="false" oncontextmenu="return false">
       <div class="gallery-item-label"><span>${title}</span><small>${sub}</small></div>
     </div>`;
 
-      const marker = '  </div>\n</section>\n<section id="about">';
+      const marker = '</div>\n    </div>\n  </section>\n\n  <!-- PANEL 2: About -->\n  <section class="panel panel-about" id="panelAbout">';
       if (!html.includes(marker)) throw new Error('Could not find gallery section in HTML');
       html = html.replace(marker, newItem + '\n\n' + marker);
 
