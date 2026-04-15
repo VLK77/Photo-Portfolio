@@ -264,13 +264,11 @@ nav > * { pointer-events: all; }
   isolation: isolate;
 }
 .home-about::before {
-  /* subtle starfield / depth gradient */
+  /* pure black underlay */
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse at 20% 20%, rgba(212,197,169,0.06), transparent 60%),
-    radial-gradient(ellipse at 80% 80%, rgba(212,197,169,0.04), transparent 55%);
+  background: var(--bg);
   pointer-events: none;
   z-index: 0;
 }
