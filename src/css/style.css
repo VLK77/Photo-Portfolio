@@ -285,49 +285,43 @@ nav > * { pointer-events: all; }
 .floating-drone {
   position: absolute;
   top: 8%;
-  right: 6%;
-  width: 180px;
-  height: 180px;
+  right: 4%;
+  width: 260px;
+  height: auto;
   z-index: 1;
-  opacity: 0.85;
+  opacity: 0.95;
   animation: droneFloat 5.5s ease-in-out infinite;
-  filter: drop-shadow(0 10px 25px rgba(0,0,0,0.7));
+  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.55));
   pointer-events: none;
-}
-.drone-prop {
-  animation: propSpin 0.12s linear infinite;
-}
-.drone-prop-r {
-  animation: propSpinR 0.12s linear infinite;
+  -webkit-user-select: none;
+  user-select: none;
+  object-fit: contain;
 }
 @keyframes droneFloat {
   0%   { transform: translate(0, 0) rotate(-2deg); }
   50%  { transform: translate(-12px, 18px) rotate(2deg); }
   100% { transform: translate(0, 0) rotate(-2deg); }
 }
-@keyframes propSpin {
-  to { transform: rotate(360deg); }
-}
-@keyframes propSpinR {
-  to { transform: rotate(-360deg); }
-}
 
 /* ===== MOVING CAMERA ===== */
 .moving-camera {
   position: absolute;
   bottom: 8%;
-  left: 4%;
-  width: 260px;
+  left: 3%;
+  width: 280px;
   height: auto;
   z-index: 1;
-  opacity: 0.82;
+  opacity: 0.95;
   animation: cameraSlide 9s ease-in-out infinite;
-  filter: drop-shadow(0 12px 20px rgba(0,0,0,0.75));
+  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.6));
   pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+  object-fit: contain;
 }
 @keyframes cameraSlide {
   0%   { transform: translate(0, 0) rotate(-2deg); }
-  50%  { transform: translate(40px, -10px) rotate(2deg); }
+  50%  { transform: translate(35px, -10px) rotate(2deg); }
   100% { transform: translate(0, 0) rotate(-2deg); }
 }
 
@@ -668,17 +662,18 @@ footer {
     min-height: auto;
   }
   .floating-drone {
-    width: 120px;
-    height: 120px;
+    width: 150px;
+    height: auto;
     top: 2%;
-    right: 4%;
-    opacity: 0.7;
+    right: 3%;
+    opacity: 0.85;
   }
   .moving-camera {
     width: 170px;
+    height: auto;
     bottom: 4%;
     left: 2%;
-    opacity: 0.7;
+    opacity: 0.85;
   }
   .panel-inner { padding: 4.5rem 1.5rem 3rem; }
 
