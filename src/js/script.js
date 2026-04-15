@@ -18,7 +18,6 @@
     isAnimating = true;
     currentPanel = index;
     updateDots();
-    updateRoad();
 
     if (isMobile()) {
       // Mobile: scroll container to panel position
@@ -45,16 +44,31 @@
     }, smooth ? 300 : 0);
   }
 
+  /* ===== SCROLL TO SUBSECTION (within panel 0 for About) ===== */
+  function scrollToSubsection(target) {
+    var inner = document.getElementById("panelHomeInner");
+    var el = document.getElementById(target === "about" ? "homeAbout" : target);
+    if (!inner || !el) return;
+    if (isMobile()) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      // Desktop: first make sure we're on panel 0, then scroll within panel-inner
+      if (currentPanel !== 0) {
+        goToPanel(0, true);
+        setTimeout(function() {
+          inner.scrollTo({ top: el.offsetTop, behavior: "smooth" });
+        }, 850);
+      } else {
+        inner.scrollTo({ top: el.offsetTop, behavior: "smooth" });
+      }
+    }
+  }
+
   /* ===== UPDATE NAV DOTS ===== */
   function updateDots() {
     dots.forEach(function(dot, i) {
       dot.classList.toggle("active", i === currentPanel);
     });
-  }
-
-  /* ===== ROAD PARALLAX ===== */
-  function updateRoad() {
-    // Road is inside scroll-container now, moves automatically
   }
 
   /* ===== WHEEL NAVIGATION (desktop) ===== */
@@ -134,7 +148,15 @@
   navLinks.querySelectorAll("a").forEach(function(a) {
     a.addEventListener("click", function(e) {
       e.preventDefault();
-      goToPanel(parseInt(a.dataset.panel), true);
+      var targetPanel = parseInt(a.dataset.panel);
+      var subsection = a.dataset.scrollto;
+      if (subsection) {
+        // First ensure panel 0, then scroll to subsection inside it
+        if (currentPanel !== targetPanel) goToPanel(targetPanel, true);
+        setTimeout(function() { scrollToSubsection(subsection); }, currentPanel === targetPanel ? 0 : 850);
+      } else {
+        goToPanel(targetPanel, true);
+      }
       hamburger.classList.remove("open");
       navLinks.classList.remove("open");
     });
@@ -153,6 +175,15 @@
       return;
     }
     if (!isMobile() && !isAnimating) {
+      // respect in-panel vertical scroll
+      var inner = panels[currentPanel].querySelector(".panel-inner");
+      if (inner && inner.scrollHeight > inner.clientHeight) {
+        var atTop = inner.scrollTop <= 0;
+        var atBottom = inner.scrollTop + inner.clientHeight >= inner.scrollHeight - 2;
+        if ((e.key === "ArrowDown" && !atBottom) || (e.key === "ArrowUp" && !atTop)) {
+          return; // allow native scroll
+        }
+      }
       if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); goToPanel(currentPanel + 1, true); }
       if (e.key === "ArrowLeft" || e.key === "ArrowUp") { e.preventDefault(); goToPanel(currentPanel - 1, true); }
     }
@@ -225,6 +256,20 @@
         btn.disabled = false;
       });
     });
+  }
+
+  /* ===== IN-PANEL SCROLL: fade in about section when visible ===== */
+  var panelHomeInner = document.getElementById("panelHomeInner");
+  var homeAbout = document.getElementById("homeAbout");
+  if (panelHomeInner && homeAbout) {
+    panelHomeInner.addEventListener("scroll", function() {
+      var rect = homeAbout.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.7) {
+        homeAbout.querySelectorAll(".fade-in:not(.visible)").forEach(function(el, i) {
+          setTimeout(function() { el.classList.add("visible"); }, i * 80);
+        });
+      }
+    }, { passive: true });
   }
 
   /* ===== RESIZE HANDLER ===== */
