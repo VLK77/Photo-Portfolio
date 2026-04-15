@@ -30,7 +30,7 @@ a { color: inherit; text-decoration: none; }
 .road-bg {
   position: absolute;
   top: 0; left: 0;
-  width: 400vw;
+  width: 300vw;
   height: 100vh;
   height: 100svh;
   z-index: 0;
@@ -50,7 +50,7 @@ a { color: inherit; text-decoration: none; }
   content: '';
   position: absolute;
   inset: 0;
-  width: 400vw;
+  width: 300vw;
   background: rgba(8,8,8,0.65);
   pointer-events: none;
 }
@@ -132,7 +132,7 @@ nav > * { pointer-events: all; }
 /* ===== SCROLL CONTAINER ===== */
 .scroll-container {
   display: flex;
-  width: 400vw;
+  width: 300vw;
   height: 100vh;
   height: 100svh;
   overflow: hidden;
@@ -159,15 +159,37 @@ nav > * { pointer-events: all; }
   scrollbar-color: var(--muted) transparent;
 }
 
-/* ===== PANEL 0: HERO ===== */
-.panel-hero {
+/* ===== PANEL 0: HOME (Hero + About combined) ===== */
+.panel-home-inner {
+  padding: 0;
+  text-shadow: 0 1px 12px rgba(0,0,0,0.7);
+}
+
+.home-hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding: 0 3rem 4rem;
+  z-index: 2;
 }
-
-.hero-content { position: relative; z-index: 2; }
+.home-hero::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 0;
+  height: 35vh;
+  background: linear-gradient(to bottom,
+    rgba(8,8,8,0) 0%,
+    rgba(8,8,8,0.35) 40%,
+    rgba(8,8,8,0.85) 80%,
+    var(--bg) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+.hero-content { position: relative; z-index: 3; }
 
 .hero-eyebrow {
   font-size: 10px;
@@ -206,7 +228,7 @@ nav > * { pointer-events: all; }
   display: flex;
   align-items: center;
   gap: 0.8rem;
-  z-index: 2;
+  z-index: 3;
 }
 .hint-text {
   font-size: 10px;
@@ -219,9 +241,94 @@ nav > * { pointer-events: all; }
   color: var(--text);
   animation: hintPulse 2s ease-in-out infinite;
 }
+.hint-arrow-down {
+  animation-name: hintPulseDown;
+}
 @keyframes hintPulse {
   0%, 100% { transform: translateX(0); opacity: 0.5; }
   50% { transform: translateX(8px); opacity: 1; }
+}
+@keyframes hintPulseDown {
+  0%, 100% { transform: translateY(0); opacity: 0.5; }
+  50% { transform: translateY(8px); opacity: 1; }
+}
+
+/* ===== HOME-ABOUT (second scroll into panel 0) ===== */
+.home-about {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  background: var(--bg);
+  padding: 6rem 3rem 4rem;
+  overflow: hidden;
+  isolation: isolate;
+}
+.home-about::before {
+  /* subtle starfield / depth gradient */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(212,197,169,0.06), transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(212,197,169,0.04), transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+.home-about-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* ===== FLOATING DRONE ===== */
+.floating-drone {
+  position: absolute;
+  top: 8%;
+  right: 6%;
+  width: 180px;
+  height: 180px;
+  z-index: 1;
+  opacity: 0.85;
+  animation: droneFloat 5.5s ease-in-out infinite;
+  filter: drop-shadow(0 10px 25px rgba(0,0,0,0.7));
+  pointer-events: none;
+}
+.drone-prop {
+  animation: propSpin 0.12s linear infinite;
+}
+.drone-prop-r {
+  animation: propSpinR 0.12s linear infinite;
+}
+@keyframes droneFloat {
+  0%   { transform: translate(0, 0) rotate(-2deg); }
+  50%  { transform: translate(-12px, 18px) rotate(2deg); }
+  100% { transform: translate(0, 0) rotate(-2deg); }
+}
+@keyframes propSpin {
+  to { transform: rotate(360deg); }
+}
+@keyframes propSpinR {
+  to { transform: rotate(-360deg); }
+}
+
+/* ===== MOVING CAMERA ===== */
+.moving-camera {
+  position: absolute;
+  bottom: 8%;
+  left: 4%;
+  width: 260px;
+  height: auto;
+  z-index: 1;
+  opacity: 0.82;
+  animation: cameraSlide 9s ease-in-out infinite;
+  filter: drop-shadow(0 12px 20px rgba(0,0,0,0.75));
+  pointer-events: none;
+}
+@keyframes cameraSlide {
+  0%   { transform: translate(0, 0) rotate(-2deg); }
+  50%  { transform: translate(40px, -10px) rotate(2deg); }
+  100% { transform: translate(0, 0) rotate(-2deg); }
 }
 
 /* ===== PANEL 1: WORK ===== */
@@ -305,7 +412,7 @@ nav > * { pointer-events: all; }
 .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-/* ===== PANEL 2: ABOUT ===== */
+/* ===== ABOUT CONTENT ===== */
 .about-grid {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
@@ -366,7 +473,7 @@ nav > * { pointer-events: all; }
 .stat-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 .stat-value { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; }
 
-/* ===== PANEL 3: CONTACT ===== */
+/* ===== PANEL 2: CONTACT ===== */
 .contact-inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -543,10 +650,35 @@ footer {
     height: 100vh;
     height: 100svh;
   }
-  .panel-hero {
+  .panel-home {
+    /* mobile: panel expands to contain hero + about */
+    height: auto;
+  }
+  .panel-home-inner {
+    height: auto;
+    overflow: visible;
+  }
+  .home-hero {
     min-height: 100vh;
     min-height: 100svh;
     padding: 0 1.5rem 3rem;
+  }
+  .home-about {
+    padding: 4rem 1.5rem 3rem;
+    min-height: auto;
+  }
+  .floating-drone {
+    width: 120px;
+    height: 120px;
+    top: 2%;
+    right: 4%;
+    opacity: 0.7;
+  }
+  .moving-camera {
+    width: 170px;
+    bottom: 4%;
+    left: 2%;
+    opacity: 0.7;
   }
   .panel-inner { padding: 4.5rem 1.5rem 3rem; }
 
@@ -555,14 +687,9 @@ footer {
   }
 
   .scroll-hint { right: 1.5rem; bottom: 3rem; }
-  .hint-arrow { animation-name: hintPulseMobile; }
-  @keyframes hintPulseMobile {
-    0%, 100% { transform: translateY(0); opacity: 0.5; }
-    50% { transform: translateY(8px); opacity: 1; }
-  }
+  .hint-arrow { animation-name: hintPulseDown; }
   .hint-text::after { content: none; }
   .hint-arrow::after { content: ''; }
-  /* Override arrow to down on mobile */
   .scroll-hint .hint-arrow { display: inline-block; transform-origin: center; }
 
   nav { padding: 1rem 1.5rem; }
