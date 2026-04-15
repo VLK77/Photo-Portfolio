@@ -132,7 +132,7 @@ const REPO = 'VLK77/Photo-Portfolio';
       <div class="gallery-item-label"><span>${title}</span><small>${sub}</small></div>
     </div>`;
 
-      const marker = '</div>\n    </div>\n  </section>\n\n  <!-- PANEL 2: About -->\n  <section class="panel panel-about" id="panelAbout">';
+      const marker = '</div>\n    </div>\n  </section>\n\n  <!-- PANEL 2: Contact -->\n  <section class="panel panel-contact" id="panelContact">';
       if (!html.includes(marker)) throw new Error('Could not find gallery section in HTML');
       html = html.replace(marker, newItem + '\n\n' + marker);
 
