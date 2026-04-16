@@ -25,6 +25,7 @@
     <li><a href="#" data-panel="0">Home</a></li>
     <li><a href="#" data-panel="1">Work</a></li>
     <li><a href="#" data-panel="0" data-scrollto="about">About</a></li>
+    <li><a href="#" data-panel="0" data-scrollto="kit">Kit</a></li>
     <li><a href="#" data-panel="2">Contact</a></li>
   </ul>
 </nav>
@@ -33,7 +34,7 @@
 
 <div class="road-bg" id="roadBg"><div class="road-tile"></div><div class="road-tile mirrored"></div><div class="road-tile"></div></div>
 
-  <!-- PANEL 0: Home (Hero + About combined) -->
+  <!-- PANEL 0: Home (Hero + About + Kit Slides) -->
   <section class="panel panel-home" id="panelHome">
     <div class="panel-inner panel-home-inner" id="panelHomeInner">
 
@@ -55,12 +56,6 @@
 
       <!-- ABOUT -->
       <div class="home-about" id="homeAbout">
-        <!-- Floating DJI Mini 4 Pro -->
-        <img class="floating-drone" src="public/drone.png" alt="" draggable="false" oncontextmenu="return false" onerror="this.style.display='none'">
-
-        <!-- Moving Sony A7 III -->
-        <img class="moving-camera" src="public/camera.png" alt="" draggable="false" oncontextmenu="return false" onerror="this.style.display='none'">
-
         <div class="home-about-content">
           <p class="section-label fade-in">About</p>
           <div class="about-grid">
@@ -75,14 +70,6 @@
                 <p>Whether I&#8217;m on the ground or 120 metres above the city, I&#8217;m looking for the same thing: the frame that makes you pause.</p>
                 <p>Available for commissioned work, collaborations, and editorial projects throughout the Czech Republic and Europe.</p>
               </div>
-              <div class="gear-list fade-in">
-                <p class="gear-header">Kit</p>
-                <div class="gear-item"><div class="gear-dot"></div>DJI Mini 4 Pro</div>
-                <div class="gear-item"><div class="gear-dot"></div>Sony A7 III</div>
-                <div class="gear-item"><div class="gear-dot"></div>iPhone 16 Pro</div>
-                <div class="gear-item"><div class="gear-dot"></div>DaVinci Resolve</div>
-                <div class="gear-item"><div class="gear-dot"></div>Adobe Creative Cloud</div>
-              </div>
             </div>
             <div class="about-stats fade-in">
               <div class="stat-row"><span class="stat-label">Based in</span><span class="stat-value">Praha</span></div>
@@ -91,6 +78,92 @@
               <div class="stat-row"><span class="stat-label">Turnaround</span><span class="stat-value" style="font-size:1.1rem;">48&#8211;72 h</span></div>
             </div>
           </div>
+          <div class="kit-intro fade-in">
+            <span class="kit-intro-label">Kit</span>
+            <span class="kit-intro-sub">&#8595; Scroll to see the gear</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- KIT SLIDE 01 : DJI Mini 4 Pro -->
+      <div class="kit-slide" id="kit" data-kit="drone">
+        <div class="kit-slide-meta">
+          <span class="kit-slide-num">01 / 03</span>
+          <span class="kit-slide-label">Kit &#183; Aerial</span>
+        </div>
+        <div class="kit-slide-inner">
+          <div class="kit-slide-text">
+            <p class="kit-slide-eyebrow">The drone</p>
+            <h2 class="kit-slide-title">
+              DJI Mini 4
+              <span>Pro</span>
+            </h2>
+            <div class="kit-slide-specs">
+              <div><strong>&lt;249 g</strong> Sub-weight &#183; no licence needed in EU C0</div>
+              <div><strong>4K / 100 fps</strong> HDR video, 1/1.3&#8243; sensor</div>
+              <div><strong>Omni</strong> Obstacle sensing, all directions</div>
+              <div><strong>34 min</strong> Max flight time</div>
+            </div>
+          </div>
+          <div class="kit-slide-image">
+            <img src="public/drone.png" alt="DJI Mini 4 Pro" draggable="false" oncontextmenu="return false" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </div>
+
+      <!-- KIT SLIDE 02 : Sony A7 III -->
+      <div class="kit-slide" data-kit="camera">
+        <div class="kit-slide-meta">
+          <span class="kit-slide-num">02 / 03</span>
+          <span class="kit-slide-label">Kit &#183; Camera</span>
+        </div>
+        <div class="kit-slide-inner">
+          <div class="kit-slide-text">
+            <p class="kit-slide-eyebrow">The body</p>
+            <h2 class="kit-slide-title">
+              Sony
+              <span>&#945;7 III</span>
+            </h2>
+            <div class="kit-slide-specs">
+              <div><strong>24.2 MP</strong> Full-frame back-illuminated sensor</div>
+              <div><strong>693-pt</strong> Phase-detect AF &#183; eye tracking</div>
+              <div><strong>ISO 50-51200</strong> Native range, clean highs</div>
+              <div><strong>5-axis</strong> In-body stabilisation</div>
+            </div>
+          </div>
+          <div class="kit-slide-image">
+            <img src="public/camera.png" alt="Sony A7 III" draggable="false" oncontextmenu="return false" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </div>
+
+      <!-- KIT SLIDE 03 : iPhone 16 Pro -->
+      <div class="kit-slide" data-kit="phone">
+        <div class="kit-slide-meta">
+          <span class="kit-slide-num">03 / 03</span>
+          <span class="kit-slide-label">Kit &#183; Pocket</span>
+        </div>
+        <div class="kit-slide-inner">
+          <div class="kit-slide-text">
+            <p class="kit-slide-eyebrow">The always-with-me</p>
+            <h2 class="kit-slide-title">
+              iPhone 16
+              <span>Pro</span>
+            </h2>
+            <div class="kit-slide-specs">
+              <div><strong>48 MP</strong> Fusion main &#183; ProRAW</div>
+              <div><strong>5&times;</strong> Tetraprism tele &#183; 120 mm eq.</div>
+              <div><strong>ProRes</strong> 4K/60 log video</div>
+              <div><strong>Titanium</strong> Natural finish</div>
+            </div>
+          </div>
+          <div class="kit-slide-image kit-slide-image-tall">
+            <img src="public/iphone.png" alt="iPhone 16 Pro" draggable="false" oncontextmenu="return false" onerror="this.style.display='none'">
+          </div>
+        </div>
+        <div class="kit-slide-hint">
+          <span class="hint-text">Work</span>
+          <span class="hint-arrow">&#8594;</span>
         </div>
       </div>
 
