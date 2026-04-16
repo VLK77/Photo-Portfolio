@@ -159,10 +159,16 @@ nav > * { pointer-events: all; }
   scrollbar-color: var(--muted) transparent;
 }
 
-/* ===== PANEL 0: HOME (Hero + About combined) ===== */
+/* ===== PANEL 0: HOME (Hero + About + Kit Slides) ===== */
 .panel-home-inner {
   padding: 0;
   text-shadow: 0 1px 12px rgba(0,0,0,0.7);
+  scroll-snap-type: y proximity;
+  scroll-behavior: smooth;
+}
+
+.home-hero, .home-about, .kit-slide {
+  scroll-snap-align: start;
 }
 
 .home-hero {
@@ -279,48 +285,159 @@ nav > * { pointer-events: all; }
   margin: 0 auto;
 }
 
-/* ===== FLOATING DRONE ===== */
-.floating-drone {
-  position: absolute;
-  top: 8%;
-  right: 4%;
-  width: 260px;
-  height: auto;
-  z-index: 1;
-  opacity: 0.95;
-  animation: droneFloat 5.5s ease-in-out infinite;
-  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.55));
-  pointer-events: none;
-  -webkit-user-select: none;
-  user-select: none;
-  object-fit: contain;
+/* ===== KIT INTRO (bottom of About) ===== */
+.kit-intro {
+  margin-top: 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
 }
-@keyframes droneFloat {
-  0%   { transform: translate(0, 0) rotate(-2deg); }
-  50%  { transform: translate(-12px, 18px) rotate(2deg); }
-  100% { transform: translate(0, 0) rotate(-2deg); }
+.kit-intro-label {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.kit-intro-sub {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  animation: hintPulseDown 2s ease-in-out infinite;
 }
 
-/* ===== MOVING CAMERA ===== */
-.moving-camera {
+/* ===== KIT SLIDES ===== */
+.kit-slide {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  background: var(--bg);
+  padding: 5rem 3rem;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.kit-slide::before {
+  /* faint vertical accent line */
+  content: '';
   position: absolute;
-  bottom: 8%;
-  left: 3%;
-  width: 280px;
+  top: 20%;
+  bottom: 20%;
+  left: 3rem;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--border), transparent);
+  z-index: 0;
+}
+.kit-slide-meta {
+  position: absolute;
+  top: 5rem;
+  right: 3rem;
+  display: flex;
+  gap: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  z-index: 3;
+}
+.kit-slide-num { color: var(--accent); }
+.kit-slide-inner {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 4rem;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+.kit-slide-text { padding-left: 2rem; }
+.kit-slide-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+.kit-slide-title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 9vw, 8rem);
+  font-weight: 800;
+  line-height: 0.88;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 2.5rem;
+  text-shadow: 0 2px 40px rgba(0,0,0,0.9);
+}
+.kit-slide-title span {
+  display: block;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,0.22);
+}
+.kit-slide-specs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  max-width: 420px;
+}
+.kit-slide-specs > div {
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+}
+.kit-slide-specs strong {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0;
+  color: var(--text);
+  min-width: 110px;
+  flex-shrink: 0;
+}
+.kit-slide-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.kit-slide-image img {
+  max-width: 100%;
+  max-height: 65vh;
+  width: auto;
   height: auto;
-  z-index: 1;
-  opacity: 0.95;
-  animation: cameraSlide 9s ease-in-out infinite;
-  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.6));
-  pointer-events: none;
+  filter: drop-shadow(0 40px 60px rgba(0,0,0,0.85));
+  animation: kitFloat 6s ease-in-out infinite;
   -webkit-user-select: none;
   user-select: none;
-  object-fit: contain;
+  pointer-events: none;
 }
-@keyframes cameraSlide {
-  0%   { transform: translate(0, 0) rotate(-2deg); }
-  50%  { transform: translate(35px, -10px) rotate(2deg); }
-  100% { transform: translate(0, 0) rotate(-2deg); }
+.kit-slide-image-tall img {
+  max-height: 78vh;
+}
+@keyframes kitFloat {
+  0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+  50%      { transform: translateY(-18px) rotate(1.5deg); }
+}
+.kit-slide-hint {
+  position: absolute;
+  right: 3rem;
+  bottom: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  z-index: 3;
 }
 
 /* ===== PANEL 1: WORK ===== */
@@ -659,19 +776,50 @@ footer {
     padding: 4rem 1.5rem 3rem;
     min-height: auto;
   }
-  .floating-drone {
-    width: 150px;
-    height: auto;
-    top: 2%;
-    right: 3%;
-    opacity: 0.85;
+  .panel-home-inner {
+    scroll-snap-type: none;
   }
-  .moving-camera {
-    width: 170px;
-    height: auto;
-    bottom: 4%;
-    left: 2%;
-    opacity: 0.85;
+  .kit-intro {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .kit-slide {
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 5rem 1.5rem 3rem;
+  }
+  .kit-slide::before { display: none; }
+  .kit-slide-meta {
+    top: 4.5rem;
+    right: 1.5rem;
+    gap: 1rem;
+  }
+  .kit-slide-inner {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .kit-slide-text {
+    padding-left: 0;
+    order: 2;
+  }
+  .kit-slide-image {
+    order: 1;
+    min-height: 35vh;
+  }
+  .kit-slide-image img {
+    max-height: 40vh;
+  }
+  .kit-slide-image-tall img {
+    max-height: 50vh;
+  }
+  .kit-slide-title {
+    font-size: clamp(2.2rem, 11vw, 4rem);
+  }
+  .kit-slide-specs { max-width: 100%; }
+  .kit-slide-hint {
+    right: 1.5rem;
+    bottom: 2rem;
   }
   .panel-inner { padding: 4.5rem 1.5rem 3rem; }
 
