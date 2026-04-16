@@ -44,10 +44,12 @@
     }, smooth ? 300 : 0);
   }
 
-  /* ===== SCROLL TO SUBSECTION (within panel 0 for About) ===== */
+  /* ===== SCROLL TO SUBSECTION (within panel 0) ===== */
   function scrollToSubsection(target) {
     var inner = document.getElementById("panelHomeInner");
-    var el = document.getElementById(target === "about" ? "homeAbout" : target);
+    var targetMap = { about: "homeAbout", kit: "kit" };
+    var elId = targetMap[target] || target;
+    var el = document.getElementById(elId);
     if (!inner || !el) return;
     if (isMobile()) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
