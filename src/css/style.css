@@ -430,6 +430,67 @@ nav > * { pointer-events: all; }
   0%, 100% { transform: translateY(0) rotate(-1.5deg); }
   50%      { transform: translateY(-18px) rotate(1.5deg); }
 }
+
+/* ===== DRONE STAGE WITH SPINNING PROPS ===== */
+.drone-stage {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  max-height: 65vh;
+  animation: kitFloat 6s ease-in-out infinite;
+}
+.drone-stage img {
+  display: block;
+  max-width: 100%;
+  max-height: 65vh;
+  width: auto;
+  height: auto;
+  animation: none !important;
+  filter: drop-shadow(0 40px 60px rgba(0,0,0,0.85));
+}
+.drone-prop {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  animation: propSpin 0.09s linear infinite;
+  background:
+    radial-gradient(circle at 50% 50%,
+      rgba(255,255,255,0.04) 0%,
+      rgba(0,0,0,0) 22%,
+      rgba(0,0,0,0.28) 42%,
+      rgba(0,0,0,0.55) 48%,
+      rgba(0,0,0,0.28) 54%,
+      rgba(0,0,0,0) 68%),
+    conic-gradient(from 0deg,
+      rgba(0,0,0,0.55),
+      rgba(0,0,0,0.05) 25%,
+      rgba(0,0,0,0.55) 50%,
+      rgba(0,0,0,0.05) 75%,
+      rgba(0,0,0,0.55) 100%);
+  mix-blend-mode: multiply;
+  filter: blur(1px);
+}
+/* Approximate rotor positions on an 800x559 DJI Mini 4 Pro top-three-quarter shot */
+.drone-prop-fl {
+  top: -4%;    left: -1%;
+  width: 23%;  aspect-ratio: 1 / 1;
+}
+.drone-prop-fr {
+  top: -4%;    right: -1%;
+  width: 23%;  aspect-ratio: 1 / 1;
+}
+.drone-prop-rl {
+  bottom: 5%;  left: 8%;
+  width: 25%;  aspect-ratio: 1 / 1;
+}
+.drone-prop-rr {
+  bottom: 5%;  right: 8%;
+  width: 25%;  aspect-ratio: 1 / 1;
+}
+@keyframes propSpin {
+  to { transform: rotate(360deg); }
+}
 .kit-slide-hint {
   position: absolute;
   right: 3rem;
