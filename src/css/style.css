@@ -431,41 +431,6 @@ nav > * { pointer-events: all; }
   50%      { transform: translateY(-18px) rotate(1.5deg); }
 }
 
-/* ===== DRONE STAGE WITH SPINNING PROPS ===== */
-.drone-stage {
-  position: relative;
-  display: inline-block;
-  max-width: 100%;
-  max-height: 65vh;
-  animation: kitFloat 6s ease-in-out infinite;
-}
-.drone-stage img {
-  display: block;
-  max-width: 100%;
-  max-height: 65vh;
-  width: auto;
-  height: auto;
-  animation: none !important;
-  filter: drop-shadow(0 40px 60px rgba(0,0,0,0.85));
-}
-.drone-props-svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: visible;
-  filter: blur(0.5px);
-}
-.drone-props-svg .dp-spin {
-  transform-origin: 0 0;
-  animation: propSpin 0.09s linear infinite;
-  will-change: transform;
-}
-@keyframes propSpin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
 .kit-slide-hint {
   position: absolute;
   right: 3rem;
