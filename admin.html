@@ -3,15 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VK Admin — Upload Photo</title>
+  <title>VK Admin — Manage Photos</title>
   <link rel="stylesheet" href="src/css/admin-style.css">
 </head>
 <body>
 <div class="container">
-  <div class="logo">VK / ADMIN</div>
+  <div class="topbar">
+    <div class="logo">VK / ADMIN</div>
+    <button id="signout-btn" class="ghost-btn" style="display:none" onclick="signOut()">Sign out</button>
+  </div>
 
-  <!-- Token Screen -->
-  <div id="token-screen" class="active">
+  <!-- ===== TOKEN SCREEN ===== -->
+  <div id="token-screen" class="screen active">
     <h1>Sign in</h1>
     <p class="subtitle">GitHub token required</p>
 
@@ -21,66 +24,124 @@
     </div>
 
     <button class="btn" onclick="saveToken()">Continue →</button>
-
     <div class="error-msg" id="token-error">Invalid token or no access to repository.</div>
   </div>
 
-  <!-- Upload Screen -->
-  <div id="upload-screen">
-    <h1>Add Photo</h1>
-    <p class="subtitle">Upload to gallery</p>
+  <!-- ===== APP SCREEN ===== -->
+  <div id="app-screen" class="screen">
 
-    <!-- Drop Zone -->
-    <div class="dropzone" id="dropzone">
-      <div class="dropzone-icon">↑</div>
-      <div class="dropzone-text">Drop photo here</div>
-      <div class="dropzone-hint">JPG, PNG — any size</div>
-      <input type="file" id="file-input" accept="image/*" onchange="handleFile(this.files[0])">
+    <div class="tabs">
+      <button class="tab active" data-tab="manage" onclick="switchTab('manage')">Manage</button>
+      <button class="tab" data-tab="add" onclick="switchTab('add')">Add photo</button>
     </div>
 
-    <!-- Preview -->
-    <div class="preview-wrap" id="preview-wrap">
-      <img id="preview-img" src="" alt="">
-      <button class="remove-btn" onclick="removeFile()">✕ Remove</button>
-      <div class="preview-name" id="preview-name"></div>
+    <!-- ===== MANAGE TAB ===== -->
+    <div id="tab-manage" class="tab-panel active">
+      <div class="manage-toolbar">
+        <select id="filter-cat" onchange="renderGrid()"></select>
+        <span id="photo-count" class="count"></span>
+        <button class="ghost-btn" onclick="loadGallery()">↻ Refresh</button>
+      </div>
+      <div id="grid-loading" class="muted-line">Loading gallery…</div>
+      <div id="grid" class="grid"></div>
+      <div id="grid-empty" class="empty" style="display:none">No photos in this view.</div>
+      <a href="/" class="link">← Back to portfolio</a>
     </div>
+
+    <!-- ===== ADD TAB ===== -->
+    <div id="tab-add" class="tab-panel">
+      <div class="dropzone" id="dropzone">
+        <div class="dropzone-icon">↑</div>
+        <div class="dropzone-text">Drop photo here</div>
+        <div class="dropzone-hint">JPG, PNG — any size (auto-compressed)</div>
+        <input type="file" id="file-input" accept="image/*" onchange="handleFile(this.files[0])">
+      </div>
+
+      <div class="preview-wrap" id="preview-wrap">
+        <img id="preview-img" src="" alt="">
+        <button class="remove-btn" onclick="removeFile()">✕ Remove</button>
+        <div class="preview-name" id="preview-name"></div>
+      </div>
+
+      <div class="field">
+        <label>Title</label>
+        <input type="text" id="title-input" placeholder="e.g. Basilisk">
+      </div>
+
+      <div class="field">
+        <label>Category</label>
+        <select id="cat-input" onchange="toggleCustomCat()"></select>
+        <input type="text" id="custom-cat-input" placeholder="e.g. Landscape" style="display:none;margin-top:0.5rem;">
+      </div>
+
+      <div class="field">
+        <label>Subtitle <span class="dim">(optional)</span></label>
+        <input type="text" id="sub-input" placeholder="e.g. Close-up · Praha">
+      </div>
+
+      <div class="field">
+        <label>Aspect ratio</label>
+        <select id="ratio-input">
+          <option value="auto">Auto-detect from image</option>
+          <option value="3/4">Portrait (3:4)</option>
+          <option value="4/3">Landscape (4:3)</option>
+          <option value="1/1">Square (1:1)</option>
+        </select>
+      </div>
+
+      <button class="btn" id="upload-btn" onclick="uploadPhoto()" disabled>Add to Gallery →</button>
+
+      <div class="progress" id="progress">
+        <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+        <div class="progress-text" id="progress-text">Preparing…</div>
+      </div>
+
+      <div class="success-msg" id="upload-success"></div>
+      <div class="error-msg" id="upload-error"></div>
+
+      <a href="/" class="link">← Back to portfolio</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== EDIT MODAL ===== -->
+<div id="edit-modal" class="modal">
+  <div class="modal-box">
+    <h2>Edit photo</h2>
+    <img id="edit-thumb" class="edit-thumb" src="" alt="">
 
     <div class="field">
       <label>Title</label>
-      <input type="text" id="title-input" placeholder="e.g. Basilisk">
+      <input type="text" id="edit-title">
     </div>
-
+    <div class="field">
+      <label>Subtitle</label>
+      <input type="text" id="edit-sub">
+    </div>
     <div class="field">
       <label>Category</label>
-      <select id="cat-input" onchange="toggleCustomCat()">
-        <option value="street">Street</option>
-        <option value="nature">Nature</option>
-        <option value="animals" selected>Animals</option>
-        <option value="aerial">Aerial</option>
-        <option value="architecture">Architecture</option>
-        <option value="__custom__">+ New category...</option>
-      </select>
-      <input type="text" id="custom-cat-input" placeholder="e.g. Landscape" style="display:none;margin-top:0.5rem;">
+      <select id="edit-cat" onchange="toggleEditCustom()"></select>
+      <input type="text" id="edit-custom-cat" placeholder="e.g. Landscape" style="display:none;margin-top:0.5rem;">
     </div>
-
     <div class="field">
-      <label>Subtitle <span style="color:#333">(optional)</span></label>
-      <input type="text" id="sub-input" placeholder="e.g. Close-up · Praha">
+      <label>Aspect ratio</label>
+      <select id="edit-ratio">
+        <option value="3/4">Portrait (3:4)</option>
+        <option value="4/3">Landscape (4:3)</option>
+        <option value="1/1">Square (1:1)</option>
+      </select>
     </div>
 
-    <button class="btn" id="upload-btn" onclick="uploadPhoto()" disabled>Upload to Gallery →</button>
-
-    <div class="progress" id="progress">
-      <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar"></div></div>
-      <div class="progress-text" id="progress-text">Preparing...</div>
+    <div class="modal-actions">
+      <button class="ghost-btn" onclick="closeEdit()">Cancel</button>
+      <button class="btn slim" id="edit-save-btn" onclick="saveEdit()">Save changes</button>
     </div>
-
-    <div class="success-msg" id="success-msg"></div>
-    <div class="error-msg" id="upload-error"></div>
-
-    <a href="/" class="link">← Back to portfolio</a>
+    <div class="error-msg" id="edit-error"></div>
   </div>
 </div>
+
+<div id="toast" class="toast"></div>
 
 <script src="src/js/admin-script.js"></script>
 </body>
