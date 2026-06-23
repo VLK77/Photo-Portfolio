@@ -94,7 +94,7 @@ async function loadGallery() {
   grid.innerHTML = '';
   try {
     const res = await fetch(`https://api.github.com/repos/${REPO}/contents/index.html?ref=${BRANCH}&t=${Date.now()}`, {
-      headers: { Authorization: `token ${token}`, 'Cache-Control': 'no-cache' }
+      headers: { Authorization: `token ${token}` }
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || 'Could not read index.html');
