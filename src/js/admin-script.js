@@ -16,6 +16,16 @@ let selectedFile = null;
 let detectedRatio = '3/4';
 let editIndex = -1;
 
+const RATIOS = [['2/3', 2/3], ['3/4', 3/4], ['1/1', 1], ['4/3', 4/3], ['16/9', 16/9], ['21/9', 21/9]];
+function nearestRatio(r) {
+  let best = '1/1', bestD = Infinity;
+  for (const [k, v] of RATIOS) {
+    const d = Math.abs(Math.log(r / v));
+    if (d < bestD) { bestD = d; best = k; }
+  }
+  return best;
+}
+
 /* ===================== AUTH ===================== */
 function saveToken() {
   const t = document.getElementById('token-input').value.trim();
@@ -339,10 +349,7 @@ function handleFile(file) {
     const img = document.getElementById('preview-img');
     img.src = e.target.result;
     img.onload = () => {
-      const r = img.naturalWidth / img.naturalHeight;
-      if (r > 1.2) detectedRatio = '4/3';
-      else if (r < 0.85) detectedRatio = '3/4';
-      else detectedRatio = '1/1';
+      detectedRatio = nearestRatio(img.naturalWidth / img.naturalHeight);
     };
     document.getElementById('preview-name').textContent =
       file.name + ' · ' + (file.size / 1024 / 1024).toFixed(1) + ' MB';
