@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AutoDismiss</string>
+    <string name="service_label">AutoDismiss - Zavirani dialogu</string>
+    <string name="service_description">Automaticky zavre chybove hlasky a dialogy kliknutim na tlacitko OK nebo Zavrit.</string>
+</resources>
